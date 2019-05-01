@@ -21,11 +21,8 @@ class BedavaNeVarMessagingService : FirebaseMessagingService() {
 
     private var deeplink: String? = null
     private var notificationId: Int = 0
-    private lateinit var intent: Intent
 
-    @Inject
-    lateinit var localStorage: LocalStorage
-//    private var localStorage = LocalStorage(this)
+    private var localStorage = LocalStorage(this)
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ

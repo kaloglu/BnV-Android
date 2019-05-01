@@ -21,7 +21,7 @@ addons:
 after_script:
 - ./commit.sh
 - sonar-scanner -Dsonar.verbose=true -X
-# - ./gradlew assembleFirebaseBeta coveralls
+# - ./gradlew assembleClientBeta coveralls
 before_install:
 - chmod +x gradlew commit.sh
 branches:

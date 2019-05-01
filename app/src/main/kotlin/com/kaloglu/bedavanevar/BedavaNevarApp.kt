@@ -13,6 +13,7 @@ import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import javax.inject.Inject
 
+
 @PerApplication
 class BedavaNevarApp : Application(), HasActivityInjector {
 
@@ -25,7 +26,14 @@ class BedavaNevarApp : Application(), HasActivityInjector {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        Fabric.with(this, Crashlytics(), Answers())
+
+        Fabric.with(
+                Fabric.Builder(this)
+                        .kits(Crashlytics(), Answers())
+                        .debuggable(BuildConfig.DEBUG)
+                        .appIdentifier(BuildConfig.APPLICATION_ID)
+                        .build()
+        )
 
         DaggerApplicationComponent
                 .builder()
