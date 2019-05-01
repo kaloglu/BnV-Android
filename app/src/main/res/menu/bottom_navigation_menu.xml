@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/raffle"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_public"
+        android:title="@string/nav_raffle" />
+    <item
+        android:id="@+id/friends"
+        android:icon="@drawable/ic_friends"
+        android:title="@string/nav_friends" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/nav_profile" />
+</menu>

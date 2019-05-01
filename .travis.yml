@@ -1,0 +1,36 @@
+language: android
+jdk: oraclejdk8
+sudo: required
+dist: trusty
+android:
+  components:
+  - platform-tools
+  - tools
+  - build-tools-28.0.3
+  - android-28
+  - extra-android-m2repository
+  - extra-google-google_play_services
+  - extra-google-m2repository
+licenses:
+- android-sdk-preview-license-c81a61d9
+- android-sdk-license-.+
+- google-gdk-license-.+
+addons:
+  sonarcloud:
+    organization: "kaloglu-github" # the key of the org you chose at step #3
+after_script:
+- ./commit.sh
+- sonar-scanner -Dsonar.verbose=true -X
+# - ./gradlew assembleFirebaseBeta coveralls
+before_install:
+- chmod +x gradlew commit.sh
+branches:
+  only:
+  - master
+  - develop
+cache:
+  directories:
+  - '$HOME/.m2/repository'
+  - '$HOME/.sonar/cache'
+  - '$HOME/.gradle'
+  - '.gradle'

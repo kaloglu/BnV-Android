@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">BedavaNeVar</string>
+    <string name="signed_in">Giriş yapıldı</string>
+    <string name="sign_in_cancelled">Giriş kullanıcı tarafından iptal edildi</string>
+    <string name="no_internet_connection">internet bağlantısını kontrol edin</string>
+    <string name="unknown_error">bilinmeyen bir hata oldu</string>
+    <string name="unknown_sign_in_response">Bu işlem desteklenmiyor</string>
+    <string name="developer_error">Geliştirici hatası</string>
+    <string name="provider_error">Giriş sağlayıcısı hatalı tanımlanmış.</string>
+    <string name="anonymous_upgrade_merge_error">Şifresiz giriş işleminde sorun oldu.</string>
+    <string name="email_mismatch_error">Bu mail ile eşleşen bi rkullanıcı bulunamadı.</string>
+    <string name="sign_out">Çıkış</string>
+    <string name="nav_raffle">Raffles</string>
+    <string name="nav_friends">Friends</string>
+    <string name="nav_profile">Profile</string>
+    <string name="raffle_form_name_hint">Raffle Name</string>
+    <string name="raffle_form_submit_text">Create new raffle</string>
+    <string name="raffle_form_success_message">İşlem Başarılı!</string>
+    <string name="raffle_bottom_menu_edit">Raffle Edit</string>
+    <string name="raffle_bottom_menu_delete">Raffle Delete</string>
+</resources>

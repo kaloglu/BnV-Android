@@ -1,0 +1,104 @@
+plugins {
+    id "org.sonarqube" version "2.7"
+}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+apply from: 'generateVersion.gradle'
+apply from: 'sourceDirectories.gradle'
+
+android {
+
+    def generatedVersionName = generateVersionName()
+
+    compileSdkVersion app.compileSdk
+    buildToolsVersion app.buildTools
+
+    defaultConfig {
+        applicationId "com.kaloglu.bedavanevar"
+
+        minSdkVersion app.minSdk
+        targetSdkVersion app.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        versionCode 1
+        versionName generatedVersionName
+
+        multiDexEnabled true
+
+    }
+
+    signingConfigs {
+        firebaseBeta {
+            storeFile file('.betakey')
+            keyAlias '.betakey'
+            keyPassword '.betakey'
+            storePassword '.betakey'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        beta {
+            signingConfig signingConfigs.firebaseBeta
+            ext.betaDistributionGroupAliases = "beta-android"
+            ext.betaDistributionReleaseNotesFilePath = file('../beta_release_notes.txt').absolutePath
+        }
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility java.sourceCompatibility
+        targetCompatibility java.targetCompatibility
+    }
+
+    flavorDimensions 'default'
+    productFlavors {
+        firebase {
+            dimension 'default'
+            buildConfigField 'String', 'NETWORK_PROTOCOL', '"firestore"'
+        }
+
+    }
+    sourceSets {
+        main {
+            res.srcDirs = getSourceDirectories('main')
+            java.srcDirs += 'src/main/kotlin'
+        }
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    addDependencies(dependencies, appDependencies)
+}
+
+apply plugin: 'com.google.gms.google-services'
+
+
+task postBeta {
+    doLast {
+        incrementVersion()
+    }
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        def flavor = variant.productFlavors[0].name.capitalize()
+        outputFileName = "BedavaNeVar-${flavor}-${variant.versionName}.apk"
+    }
+}
