@@ -32,7 +32,7 @@ android {
     }
 
     signingConfigs {
-        firebaseBeta {
+        clientBeta {
             storeFile file('.betakey')
             keyAlias '.betakey'
             keyPassword '.betakey'
@@ -45,11 +45,14 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.clientBeta
         }
         beta {
-            signingConfig signingConfigs.firebaseBeta
+            debuggable true
+            signingConfig signingConfigs.clientBeta
             ext.betaDistributionGroupAliases = "beta-android"
             ext.betaDistributionReleaseNotesFilePath = file('../beta_release_notes.txt').absolutePath
+            applicationIdSuffix ".beta"
         }
         debug {
             debuggable true
@@ -64,7 +67,7 @@ android {
 
     flavorDimensions 'default'
     productFlavors {
-        firebase {
+        client {
             dimension 'default'
             buildConfigField 'String', 'NETWORK_PROTOCOL', '"firestore"'
         }
@@ -72,8 +75,8 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs = getSourceDirectories('main')
-            java.srcDirs += 'src/main/kotlin'
+            res.srcDirs = getSourceDirectories(['main'])
+            java.srcDirs = ['src/main/kotlin']
         }
 
     }

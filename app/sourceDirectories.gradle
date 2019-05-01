@@ -8,26 +8,26 @@ import groovy.transform.Field
         'dialogs'
 ]
 
-ext.getSourceDirectories = { String dimensionName ->
+ext.getSourceDirectories = { List<String> dimensions ->
 
     def directories = new ArrayList<>()
+    dimensions.each { dimensionName ->
+        def res_path = "src/$dimensionName/res"
 
-    def res_path = "src/$dimensionName/res"
+        def layout_path = "app/$res_path/layout"
 
-    def layout_path = "app/$res_path/layout"
-
-    layout_names.each { layout_name ->
-        def layouts = new File("$layout_path/$layout_name")
-        if (layouts.exists()) {
-            layouts.eachDir {
-                directories.add(it.canonicalPath)
+        layout_names.each { layout_name ->
+            def layouts = new File("$layout_path/$layout_name")
+            if (layouts.exists()) {
+                layouts.eachDir {
+                    directories.add(it.canonicalPath)
+                }
             }
         }
+
+        directories.add(layout_path)
+
+        directories.add(res_path)
     }
-
-    directories.add(layout_path)
-
-    directories.add(res_path)
-
     return directories
 }

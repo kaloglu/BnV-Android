@@ -27,7 +27,7 @@ if [[ "$TRAVIS_BRANCH" = "master" && "$TRAVIS_PULL_REQUEST" = "false" ]]; then
 
     git log $(git describe --tags --abbrev=0)..HEAD --oneline > beta_release_notes.txt
     ./gradlew postBeta
-    ./gradlew clean assembleFirebaseBeta crashlyticsUploadDistributionFirebaseBeta
+    ./gradlew clean assembleClientBeta crashlyticsUploadDistributionClientBeta
     git add . -u
     git commit -m "[ci skip] ${version}"
     git push -f release $TRAVIS_BRANCH 2>&1
