@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -33,7 +32,7 @@
         android:required="false" />
 
     <application
-        android:name="com.kaloglu.bedavanevar.BedavaNevarApp"
+        android:name=".BedavaNevarApp"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -51,7 +50,7 @@
             tools:replace="android:launchMode" />
 
         <activity
-            android:name="com.kaloglu.bedavanevar.mobileui.main.MainActivity"
+            android:name=".mobileui.main.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -60,7 +59,7 @@
 
             </intent-filter>
         </activity>
-        <activity android:name="com.kaloglu.bedavanevar.mobileui.splash.SplashActivity">
+        <activity android:name=".mobileui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,8 +71,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities">
+            android:grantUriPermissions="true">
 
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"

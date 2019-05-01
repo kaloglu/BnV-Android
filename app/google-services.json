@@ -45,6 +45,43 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:414030755976:android:388127fe89366850",
+        "android_client_info": {
+          "package_name": "com.kaloglu.bedavanevar.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414030755976-nkimgjcj1oob1l8gm1h212mfhtjboulu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kaloglu.bedavanevar.beta",
+            "certificate_hash": "3e1830cf3ddae1d3fa2338b57a08305034aa6e17"
+          }
+        },
+        {
+          "client_id": "414030755976-onqmorfkjqpv5rh3e1tcvjt7c2r291st.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0o4oEtRuaNYgaLD8xyNN1shmmDZ9-3rY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414030755976-onqmorfkjqpv5rh3e1tcvjt7c2r291st.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:414030755976:android:56fb8a9ab859c7c2",
         "android_client_info": {
           "package_name": "com.kaloglu.bedavanevar.debug"
@@ -52,11 +89,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "414030755976-800ef70kr3kvc1npcash3m8d0dm65gsm.apps.googleusercontent.com",
+          "client_id": "414030755976-7vf63n6v3l2chmb1ekl8lmuknnbj1q65.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kaloglu.bedavanevar.debug",
             "certificate_hash": "6825ed1e0e9bd9d40bf096bdab9832e7f30a0b24"
+          }
+        },
+        {
+          "client_id": "414030755976-kk3dqm4uln789tf6a0kiqd14gos99dev.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kaloglu.bedavanevar.debug",
+            "certificate_hash": "3e1830cf3ddae1d3fa2338b57a08305034aa6e17"
           }
         },
         {
