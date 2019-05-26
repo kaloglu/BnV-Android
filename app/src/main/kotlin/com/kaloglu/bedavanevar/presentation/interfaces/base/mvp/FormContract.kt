@@ -1,7 +1,6 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.base.mvp
 
 import android.view.View
-import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.utils.extensions.hideKeyboard
 
 interface FormContract {
@@ -24,19 +23,19 @@ interface FormContract {
 
     }
 
-    interface FormPresenter<T : BaseModel, V : FormView> : MvpPresenter<V> {
+    interface FormPresenter<V : FormView> : MvpPresenter<V> {
 
-        private fun getSubmitButton() = getView().getSubmitButton()
+        private fun getSubmitButton() = getView()?.getSubmitButton()
 
         fun setSubmitButtonEnabledIfPossible() = setSubmitButtonEnabled(getSubmitButton())
 
         fun submitForm() {
-            getSubmitButton().hideKeyboard()
+            getSubmitButton()?.hideKeyboard()
             if (canSubmitForm() && isFormValid()) onSubmitForm()
         }
 
-        private fun setSubmitButtonEnabled(submitButton: View) {
-            submitButton.isEnabled = canSubmitForm()
+        private fun setSubmitButtonEnabled(submitButton: View?) {
+            submitButton?.isEnabled = canSubmitForm()
         }
 
         /**

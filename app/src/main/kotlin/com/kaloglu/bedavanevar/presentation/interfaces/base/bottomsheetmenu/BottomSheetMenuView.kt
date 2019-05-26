@@ -6,7 +6,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 
-interface BottomSheetMenuView<in M : BaseModel> {
+
+interface BottomSheetMenuView {
     val layoutId: Int
         get() = R.layout.bottom_sheet_dialog
 
@@ -16,7 +17,7 @@ interface BottomSheetMenuView<in M : BaseModel> {
 
     fun initBottomMenuView(viewGroup: ViewGroup)
 
-    fun onClickBottomMenuItem(bottomSheetItem: M, bottomMenuItemView: View)
-    fun show(itemModel: M)
+    fun <M : BaseModel> onClickBottomMenuItem(bottomSheetItem: M, bottomMenuItemView: View)
+    fun <M : BaseModel> show(itemModel: M)
     fun init(viewGroup: ViewGroup)
 }

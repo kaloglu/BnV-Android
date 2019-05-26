@@ -40,17 +40,19 @@ class LocalStorage @Inject constructor(context: Context) {
         const val PREF_KEY_TOKEN = "PREF_KEY_TOKEN"
         const val PREF_KEY_LONGITUDE = "PREF_KEY_LONGITUDE"
         const val PREF_KEY_LATITUDE = "PREF_KEY_LATITUDE"
-//        const val SAMPLE_PARAMETER_KEY = "email"
     }
 
-    fun getToken() = preferences[PREF_KEY_TOKEN, ""]
-
-    fun setToken(value: String?) =
+    var deviceToken
+        get() = preferences[PREF_KEY_TOKEN, ""]
+        set(value) {
             when {
-                value.isNullOrEmpty() -> preferences[PREF_KEY_TOKEN] = ""
+                value.isEmpty() -> preferences[PREF_KEY_TOKEN] = ""
                 else -> preferences[PREF_KEY_TOKEN] = value
             }
+        }
 
-    fun clearToken() = setToken(null)
+    fun clearToken() {
+        deviceToken = ""
+    }
 
 }

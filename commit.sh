@@ -4,7 +4,7 @@ if [[ "$TRAVIS_BRANCH" = "master" && "$TRAVIS_PULL_REQUEST" = "false" ]]; then
     
     git config --global user.email "build@travis-ci.com"
     git config --global user.name "Travis CI"
-    git remote add release "https://$GH_TOKEN@github.com/kaloglu/BedavaNevar-Android.git"
+    git remote add release "https://$GH_TOKEN@github.com/kaloglu/BnV-Android.git"
     git checkout $TRAVIS_BRANCH
 
     file="./app/version.properties"

@@ -1,12 +1,18 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.base.mvp
 
+import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.annotation.UiThread
 import androidx.lifecycle.LifecycleOwner
-import com.kaloglu.bedavanevar.domain.model.Raffle
+import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.model.DeviceToken
+import com.kaloglu.bedavanevar.mobileui.base.mvp.BaseMvpActivity
 
 interface MvpView : LifecycleOwner {
+
+    @UiThread
+    fun getContext(): Context?
 
     @UiThread
     fun showSnackbar(@StringRes messageId: Int)
@@ -15,7 +21,7 @@ interface MvpView : LifecycleOwner {
     fun showSnackbar(message: String)
 
     @UiThread
-    fun handleSignInResult(data: Intent?, resultCode: Int)
+    fun <V : MvpView> V.handleSignInResult(data: Intent?, resultCode: Int)
 
     @UiThread
     fun onPresenterAttached()
@@ -24,5 +30,7 @@ interface MvpView : LifecycleOwner {
     fun onPresenterDetached()
 
     @UiThread
-    fun getMvpActivity(): MvpView
+    fun getMvpActivity(): BaseMvpActivity<*, *>
+
+    fun findUnregisteredToken(liveData: QueryLiveData<DeviceToken>)
 }

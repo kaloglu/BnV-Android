@@ -5,13 +5,14 @@ import com.google.firebase.firestore.Query
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.domain.FireStoreLiveList
+import com.kaloglu.bedavanevar.domain.QueryLiveData
 
-interface Repository<M : BaseModel> {
+interface Repository {
 
-    fun getModelClass(): Class<M>
-    fun get(filters: Filters?): FireStoreLiveList<M>
+    fun getModelClass(): Class<*>
+    fun <M : BaseModel> get(filters: Filters?): QueryLiveData<M>
     fun toQuery(filters: Filters?): Query
-    fun add(model: M): Task<Void>
+    fun <M : BaseModel> add(model: M): Task<Void>
     fun remove(id: String): Task<Void>
 
 }

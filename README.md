@@ -1,1 +1,1 @@
-[![Build Status](https://travis-ci.com/kaloglu/BedavaNevar-Android.svg?token=jbt9y3uWjYx6paKVdvuP&branch=master)](https://travis-ci.com/kaloglu/BedavaNevar-Android) [![CircleCI](https://circleci.com/gh/kaloglu/BedavaNevar-Android.svg?style=svg&circle-token=9c0b86a59999670c84c8b499487757de1bb0debb)](https://circleci.com/gh/kaloglu/BedavaNevar-Android) 
+[![Build Status](https://travis-ci.com/kaloglu/BNV-Android.svg?token=jbt9y3uWjYx6paKVdvuP&branch=master)](https://travis-ci.com/kaloglu/BNV-Android) 

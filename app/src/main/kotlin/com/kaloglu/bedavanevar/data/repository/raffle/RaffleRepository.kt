@@ -12,7 +12,7 @@ import javax.inject.Named
 class RaffleRepository @Inject constructor(
         @Named(TableNames.RAFFLE_LIST)
         override val collectionRef: CollectionReference
-) : BaseRepository<Raffle>() {
+) : BaseRepository() {
 
     override fun getModelClass() = Raffle::class.java
 

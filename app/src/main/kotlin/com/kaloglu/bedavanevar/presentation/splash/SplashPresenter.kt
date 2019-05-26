@@ -10,13 +10,13 @@ import javax.inject.Inject
 class SplashPresenter @Inject constructor(override val genericDependencies: GenericDependencies)
     : BasePresenter<SplashContract.View>(), SplashContract.Presenter {
 
-    override fun onLogin() = activityNavigator
-            .toMainActivity()
-            .singleTop()
-            .clearTop()
-            .finishThis()
-            .navigate()
+    override fun onLogin() {
+        activityNavigator
+                .toMainActivity()
+                .singleTop()
+                .clearTop()
+                .finishThis()
+                .navigate()
+    }
+
 }
-
-
-

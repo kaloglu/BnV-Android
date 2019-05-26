@@ -12,9 +12,13 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(override val genericDependencies: GenericDependencies?)
     : BasePresenter<MainContract.View>(), MainContract.Presenter {
 
-    override fun onClearFragmentContainer() = getView().showContentContainer(true)
+    override fun onClearFragmentContainer() {
+        getView()?.showContentContainer(true)
+    }
 
-    override fun onFillFragmentContainer() = getView().showContentContainer(false)
+    override fun onFillFragmentContainer() {
+        getView()?.showContentContainer(false)
+    }
 
     override fun newRaffle() {
         fragmentNavigator

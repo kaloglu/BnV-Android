@@ -1,7 +1,8 @@
 package com.kaloglu.bedavanevar.injection.module
 
-import android.app.Application
+import android.content.Context
 import com.kaloglu.bedavanevar.data.LocalStorage
+import com.kaloglu.bedavanevar.injection.qualifier.ApplicationContext
 import com.kaloglu.bedavanevar.injection.scopes.PerApplication
 import dagger.Module
 import dagger.Provides
@@ -14,8 +15,8 @@ class ContextModule {
         @JvmStatic
         @PerApplication
         @Provides
-        fun providesLocalStorage(application: Application): LocalStorage =
-                LocalStorage(application)
+        fun providesLocalStorage(@ApplicationContext context: Context) =
+                LocalStorage(context)
 
     }
 }

@@ -1,6 +1,5 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.raffle
 
-import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.FormContract
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListView
@@ -11,11 +10,12 @@ interface RaffleContract {
         fun getRaffleName(): String
     }
 
-    interface Presenter : FormContract.FormPresenter<Raffle, View>
+    interface Presenter : FormContract.FormPresenter<View>
 
-    interface ListView : MvpListView<Raffle>
+    interface ListView : MvpListView
 
-    interface ListPresenter : MvpListPresenter<Raffle, ListView> {
+    interface ListPresenter : MvpListPresenter<ListView> {
+
         fun createRaffle()
     }
 

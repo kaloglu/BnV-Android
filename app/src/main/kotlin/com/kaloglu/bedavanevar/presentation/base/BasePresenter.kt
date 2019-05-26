@@ -1,11 +1,13 @@
 package com.kaloglu.bedavanevar.presentation.base
 
 import androidx.annotation.CallSuper
-import androidx.annotation.UiThread
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseUiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.kaloglu.bedavanevar.R
+import com.kaloglu.bedavanevar.domain.filters.Filters
+import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpView
@@ -16,6 +18,33 @@ import java.lang.ref.WeakReference
  * Base implementation for presenter
  * */
 abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
+    private val authListener: FirebaseAuth.AuthStateListener = FirebaseAuth.AuthStateListener {
+        loginUser = it.currentUser
+        if (loginUser == null) {
+            onLogout()
+        } else {
+            onLogin()
+            fillUserData()
+        }
+    }
+
+    private fun UserDetail.checkUnregisterToken() {
+        getView()?.findUnregisteredToken(
+                userRepository
+                        .getDeviceToken(
+                                Filters()
+                                        .addEqualTo(
+                                                field = "deviceToken",
+                                                value = deviceToken
+                                        )
+                        )
+        )
+
+    }
+
+    override fun removeUnregisteredToken(deviceToken: String) {
+        userRepository.removeDeviceToken(deviceToken)
+    }
 
     override val genericDependencies: GenericDependencies? = null
         get() = field.checkInjection()
@@ -30,14 +59,14 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
     }
 
     final override fun detachView() {
-        viewRef?.get()?.onPresenterDetached()
+        getView()?.onPresenterDetached()
         viewRef?.clear()
         viewRef = null
     }
 
-    final override fun getView() = when {
+    override fun getView() = when {
         isViewAttached() -> viewRef?.get()!!
-        else -> throw IllegalArgumentException()
+        else -> null
     }
 
     final override fun isViewAttached() = viewRef != null && viewRef?.get() != null
@@ -46,36 +75,82 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         fragment?.let(fragmentNavigator::showFragment)
     }
 
-    final override fun showFireBaseAuthError(firebaseUiException: FirebaseUiException) = getView().showSnackbar(
-            when (firebaseUiException.errorCode) {
-                ErrorCodes.UNKNOWN_ERROR -> R.string.unknown_error
-                ErrorCodes.NO_NETWORK -> R.string.no_internet_connection
-                ErrorCodes.PLAY_SERVICES_UPDATE_CANCELLED -> R.string.common_google_play_services_updating_text
-                ErrorCodes.DEVELOPER_ERROR -> R.string.developer_error
-                ErrorCodes.PROVIDER_ERROR -> R.string.provider_error
-                ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT -> R.string.anonymous_upgrade_merge_error
-                ErrorCodes.EMAIL_MISMATCH_ERROR -> R.string.email_mismatch_error
-                else -> R.string.unknown_sign_in_response
-            }
-    )
-
-    @UiThread
-    @CallSuper
-    override fun checkAuth() = when {
-        firebaseAuth.currentUser == null -> onLogout()
-        else -> onLogin()
+    final override fun showFireBaseAuthError(firebaseUiException: FirebaseUiException) {
+        getView()?.showSnackbar(
+                when (firebaseUiException.errorCode) {
+                    ErrorCodes.UNKNOWN_ERROR -> R.string.unknown_error
+                    ErrorCodes.NO_NETWORK -> R.string.no_internet_connection
+                    ErrorCodes.PLAY_SERVICES_UPDATE_CANCELLED -> R.string.common_google_play_services_updating_text
+                    ErrorCodes.DEVELOPER_ERROR -> R.string.developer_error
+                    ErrorCodes.PROVIDER_ERROR -> R.string.provider_error
+                    ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT -> R.string.anonymous_upgrade_merge_error
+                    ErrorCodes.EMAIL_MISMATCH_ERROR -> R.string.email_mismatch_error
+                    else -> R.string.unknown_sign_in_response
+                }
+        )
     }
 
+//    @UiThread
+//    @CallSuper
+//    override fun checkAuth() {
+//        if (loginUser != null) onLogin() else Unit
+//    }
+
     override fun signOut() = OnCompleteListener<Void> {
-        activityNavigator
-                .toSplashScreen()
-                .finishThis()
-                .navigate()
+        if (it.isSuccessful) {
+            activityNavigator
+                    .toSplashScreen()
+                    .finishThis()
+                    .navigate()
+        }
     }
 
     override fun onLogin() = Unit
 
-    override fun onLogout() = activityNavigator
-            .toSignInActivity(requestCodeForSignIn)
-            .navigate()
+    override fun addAuthListener() {
+        FirebaseAuth.getInstance().addAuthStateListener(authListener)
+    }
+
+    override fun onLogout() {
+        FirebaseAuth.getInstance().removeAuthStateListener(authListener)
+        activityNavigator
+                .toSignInActivity(requestCodeForSignIn)
+                .navigate()
+    }
+
+    override fun fillUserData() {
+        if (loginUser == null)
+            onLogout()
+        else
+            loginUser!!.run {
+                val userDetail = UserDetail(
+                        id = uid,
+                        fullname = displayName,
+                        email = email,
+                        gsm = phoneNumber,
+                        deviceToken = localStorage.deviceToken,
+                        profilePicUrl = photoUrl.toString()
+                )
+
+                userRepository
+                        .add(userDetail)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                userDetail.checkUnregisterToken()
+                            }
+                        }
+
+            }
+    }
+
+    final override fun attachLifecycle() {
+        getLifeCycle()?.addObserver(this)
+    }
+
+    final override fun detachLifecycle() {
+        getLifeCycle()?.removeObserver(this)
+    }
+
+    final override fun getLifeCycle() = getView()?.lifecycle
+
 }

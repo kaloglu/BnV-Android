@@ -15,8 +15,9 @@ class Filters @JvmOverloads constructor(
      * @param field field name
      * @param value value
      * **/
-    fun addEqualTo(field: String, value: Any) {
+    fun addEqualTo(field: String, value: Any): Filters {
         equalToMap[field] = value
+        return this
     }
 
     /**
@@ -26,7 +27,8 @@ class Filters @JvmOverloads constructor(
      * @param direction ASCENDING or DESCENDING
      * **/
     @JvmOverloads
-    fun addSort(field: String, direction: Query.Direction = Query.Direction.ASCENDING) {
+    fun addSort(field: String, direction: Query.Direction = Query.Direction.ASCENDING): Filters {
         sortMap[field] = direction
+        return this
     }
 }

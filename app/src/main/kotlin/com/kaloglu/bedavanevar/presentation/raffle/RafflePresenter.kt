@@ -1,6 +1,8 @@
 package com.kaloglu.bedavanevar.presentation.raffle
 
 import com.kaloglu.bedavanevar.data.repository.raffle.RaffleRepository
+import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.presentation.base.BasePresenter
 import com.kaloglu.bedavanevar.presentation.base.GenericDependencies
 import com.kaloglu.bedavanevar.presentation.interfaces.raffle.RaffleContract
@@ -14,7 +16,7 @@ class RafflePresenter @Inject constructor(
     override fun isFormValid(): Boolean = true
 
     override fun canSubmitForm(): Boolean = when {
-        getView().getRaffleName().isEmpty() -> false
+        getView()?.getRaffleName().isNullOrEmpty() -> false
         else -> true
     }
 

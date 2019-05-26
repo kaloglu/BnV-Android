@@ -2,58 +2,67 @@ package com.kaloglu.bedavanevar.domain.repository.base
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
-import com.kaloglu.bedavanevar.domain.FireStoreLiveList
+import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.domain.repository.interfaces.Repository
 
-abstract class BaseRepository<M : BaseModel> : Repository<M> {
+abstract class BaseRepository : Repository {
     abstract val collectionRef: CollectionReference
 
-    override fun get(filters: Filters?) =
-            FireStoreLiveList(toQuery(filters), getModelClass())
+    @Suppress("UNCHECKED_CAST")
+    override fun <M : BaseModel> get(filters: Filters?) =
+            QueryLiveData(toQuery(filters), getModelClass() as Class<M>)
 
     override fun toQuery(filters: Filters?): Query {
-        val query: Query = collectionRef
 
-        applyOrderBy(query, filters)
+        applyOrderBy(collectionRef, filters)
 
-        applyFilter(query, filters)
+        applyFilter(collectionRef, filters)
 
-        applyLimit(query)
+        applyLimit(collectionRef)
 
-        return query
+        return collectionRef
     }
 
-    override fun add(model: M): Task<Void> {
-        val newDocument = collectionRef.document()
-        model.id = newDocument.id
+    override fun <M : BaseModel> add(model: M): Task<Void> {
+        val newDocument: DocumentReference
+        when {
+            model.id.isNotEmpty() -> {
+                newDocument = collectionRef.document(model.id)
+            }
+            else -> {
+                newDocument = collectionRef.document()
+                model.id = newDocument.id
+            }
+        }
+
         return newDocument.set(model)
     }
 
     override fun remove(id: String) =
             collectionRef.document(id).delete()
 
-    protected open fun applyLimit(query: Query) {
-        query.limit(getLimit())
+    protected open fun applyLimit(collectionReference: CollectionReference) {
+        collectionReference.limit(getLimit())
     }
 
-    protected open fun applyOrderBy(query: Query, filters: Filters?) {
+    protected open fun applyOrderBy(collectionReference: CollectionReference, filters: Filters?) {
         filters?.run {
             sortMap.entries.forEach {
-                query.orderBy(it.key, it.value)
+                collectionReference.orderBy(it.key, it.value)
             }
         }
     }
 
-    protected open fun applyFilter(query: Query, filters: Filters?) {
+    protected open fun applyFilter(collectionReference: CollectionReference, filters: Filters?) {
         filters?.run {
             equalToMap.entries.forEach {
-                query.whereEqualTo(it.key, it.value)
+                collectionReference.whereEqualTo(it.key, it.value)
             }
-
         }
     }
 

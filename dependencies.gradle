@@ -47,6 +47,10 @@ def versions = [
         fabric              : '2.9.9',
         answers             : '1.4.7',
         jetifier            : '1.0.0-beta04',
+        retrofit            : '2.3.0',
+        retrofitLogging     : '3.13.1',
+        materialDialog      : '0.9.6.0',
+        zelory              : '2.1.0',
 ]
 
 ext.gradlePlugins = [
@@ -115,11 +119,22 @@ def libraries = [
 
         //Fabric
         fabric             : "com.crashlytics.sdk.android:crashlytics:${versions.fabric}@aar",
-        answers             : "com.crashlytics.sdk.android:answers:${versions.answers}@aar",
+        answers            : "com.crashlytics.sdk.android:answers:${versions.answers}@aar",
 
         //jetifier
         jetifierKapt       : "com.android.tools.build.jetifier:jetifier-core:${versions.jetifier}",
-        jetifierProcessor  : "com.android.tools.build.jetifier:jetifier-core:${versions.jetifier}"
+        jetifierProcessor  : "com.android.tools.build.jetifier:jetifier-core:${versions.jetifier}",
+
+        //retrofit
+        retrofitBase       : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+        retrofitGson       : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+        retrofitLogging    : "com.squareup.okhttp3:logging-interceptor:${versions.retrofitLogging}",
+
+        //materialDialog
+        materialDialog     : "com.afollestad.material-dialogs:core:${versions.materialDialog}",
+
+        //zelory
+        zelory             : "id.zelory:compressor:${versions.zelory}"
 ]
 ext.appDependencies = [
         addDependency('implementation', libraries.multidex),
@@ -164,8 +179,13 @@ ext.appDependencies = [
         addDependency('kapt', libraries.jetifierKapt),
         addDependency('annotationProcessor', libraries.jetifierProcessor),
 
-        //TODO: kullanılmazsa silinecek
         addDependency('implementation', libraries.javaxInject),
+
+        addDependency('implementation', libraries.retrofitBase),
+        addDependency('implementation', libraries.retrofitGson),
+        addDependency('implementation', libraries.retrofitLogging),
+        addDependency('implementation', libraries.materialDialog),
+        addDependency('implementation', libraries.zelory),
 
         //test debug for room
         addDependency('debugImplementation', 'com.amitshekhar.android:debug-db:1.0.4')

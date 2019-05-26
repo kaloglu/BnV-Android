@@ -29,6 +29,35 @@ abstract class FirebaseModule {
         @JvmStatic
         @PerApplication
         @Provides
+        @Named(TableNames.USER_LIST)
+        fun userCollection(firestore: FirebaseFirestore) =
+                firestore.collection(TableNames.USER_LIST)
+
+        @JvmStatic
+        @PerApplication
+        @Provides
+        @Named(TableNames.ADMIN_LIST)
+        fun adminCollection(firestore: FirebaseFirestore) =
+                firestore.collection(TableNames.ADMIN_LIST)
+
+        @JvmStatic
+        @PerApplication
+        @Provides
+        @Named(TableNames.DEVICE_TOKENS)
+        fun deviceTokenDocument(firestore: FirebaseFirestore) =
+                firestore.collection(TableNames.DEVICE_TOKENS).document(TableNames.ADMIN_LIST)
+
+        @JvmStatic
+        @PerApplication
+        @Provides
+        @Named(TableNames.UNREGISTERED_TOKENS)
+        fun unRegisteredDeviceTokenCollection(firestore: FirebaseFirestore) =
+                deviceTokenDocument(firestore)
+                        .collection(TableNames.UNREGISTERED_TOKENS)
+
+        @JvmStatic
+        @PerApplication
+        @Provides
         @Named(TableNames.RAFFLE_LIST)
         fun raffleCollection(firestore: FirebaseFirestore) =
                 firestore.collection(TableNames.RAFFLE_LIST)
