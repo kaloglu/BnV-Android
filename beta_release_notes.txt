@@ -1,0 +1,6 @@
+65092d4 Update README.md
+f4f03e5 Update README.md
+91a3d45 Merge pull request #1 from kaloglu/develop
+096562a Sign-in issue
+7847e00 Update to new Structure
+95792f3 fix view bugs
