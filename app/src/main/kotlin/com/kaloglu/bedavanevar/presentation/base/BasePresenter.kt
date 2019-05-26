@@ -1,11 +1,13 @@
 package com.kaloglu.bedavanevar.presentation.base
 
 import androidx.annotation.CallSuper
-import androidx.annotation.UiThread
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseUiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.kaloglu.bedavanevar.R
+import com.kaloglu.bedavanevar.domain.filters.Filters
+import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpView
@@ -16,6 +18,33 @@ import java.lang.ref.WeakReference
  * Base implementation for presenter
  * */
 abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
+    private val authListener: FirebaseAuth.AuthStateListener = FirebaseAuth.AuthStateListener {
+        loginUser = it.currentUser
+        if (loginUser == null) {
+            onLogout()
+        } else {
+            onLogin()
+            fillUserData()
+        }
+    }
+
+    private fun UserDetail.checkUnregisterToken() {
+        getView()?.findUnregisteredToken(
+                userRepository
+                        .getDeviceToken(
+                                Filters()
+                                        .addEqualTo(
+                                                field = "deviceToken",
+                                                value = deviceToken
+                                        )
+                        )
+        )
+
+    }
+
+    override fun removeUnregisteredToken(deviceToken: String) {
+        userRepository.removeDeviceToken(deviceToken)
+    }
 
     override val genericDependencies: GenericDependencies? = null
         get() = field.checkInjection()
@@ -61,25 +90,58 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         )
     }
 
-    @UiThread
-    @CallSuper
-    override fun checkAuth() = when {
-        loginUser == null -> onLogout()
-        else -> onLogin()
-    }
+//    @UiThread
+//    @CallSuper
+//    override fun checkAuth() {
+//        if (loginUser != null) onLogin() else Unit
+//    }
 
     override fun signOut() = OnCompleteListener<Void> {
-        activityNavigator
-                .toSplashScreen()
-                .finishThis()
-                .navigate()
+        if (it.isSuccessful) {
+            activityNavigator
+                    .toSplashScreen()
+                    .finishThis()
+                    .navigate()
+        }
     }
 
     override fun onLogin() = Unit
 
-    override fun onLogout() = activityNavigator
-            .toSignInActivity(requestCodeForSignIn)
-            .navigate()
+    override fun addAuthListener() {
+        FirebaseAuth.getInstance().addAuthStateListener(authListener)
+    }
+
+    override fun onLogout() {
+        FirebaseAuth.getInstance().removeAuthStateListener(authListener)
+        activityNavigator
+                .toSignInActivity(requestCodeForSignIn)
+                .navigate()
+    }
+
+    override fun fillUserData() {
+        if (loginUser == null)
+            onLogout()
+        else
+            loginUser!!.run {
+                val userDetail = UserDetail(
+                        id = uid,
+                        fullname = displayName,
+                        email = email,
+                        gsm = phoneNumber,
+                        deviceToken = localStorage.deviceToken,
+                        profilePicUrl = photoUrl.toString()
+                )
+
+                userRepository
+                        .add(userDetail)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                userDetail.checkUnregisterToken()
+                            }
+                        }
+
+            }
+    }
 
     final override fun attachLifecycle() {
         getLifeCycle()?.addObserver(this)

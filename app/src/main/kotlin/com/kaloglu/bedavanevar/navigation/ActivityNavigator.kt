@@ -30,6 +30,7 @@ class ActivityNavigator @Inject constructor(val activity: AppCompatActivity) {
 
         val intent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
+                .setAlwaysShowSignInMethodScreen(true)
                 .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
                 .setAvailableProviders(providerList)
                 .build()

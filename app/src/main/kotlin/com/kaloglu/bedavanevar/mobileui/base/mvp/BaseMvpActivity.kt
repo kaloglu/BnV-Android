@@ -3,15 +3,20 @@ package com.kaloglu.bedavanevar.mobileui.base.mvp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.kaloglu.bedavanevar.R
+import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.enums.Status
+import com.kaloglu.bedavanevar.domain.model.DeviceToken
 import com.kaloglu.bedavanevar.mobileui.base.BaseActivity
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpView
+import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(), MvpView {
@@ -39,23 +44,18 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) =
-            super.onActivityResult(requestCode, resultCode, data)
-                    .also {
-                        when (requestCode) {
-                            presenter.requestCodeForSignIn -> this.handleSignInResult(data, resultCode)
-                        }
-                    }
-
-    override fun initUserInterface() {
-        FirebaseAuth.getInstance().addAuthStateListener {
-            presenter.genericDependencies?.loginUser = it.currentUser
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            presenter.requestCodeForSignIn -> this.handleSignInResult(data, resultCode)
         }
     }
 
+    override fun initUserInterface() = Unit
+
     override fun onPresenterDetached() = Unit
 
-    override fun onPresenterAttached() = presenter.checkAuth()
+    override fun onPresenterAttached() = Unit
 
     override fun showSnackbar(messageId: Int) = showSnackbar(resources.getString(messageId))
 
@@ -71,12 +71,32 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
 
         return when {
             resultCode == AppCompatActivity.RESULT_OK -> {
-                presenter.checkAuth()
+                if (response != null) {
+                    presenter.onLogin()
+                }
+                return
             }
             response == null -> showSnackbar(R.string.sign_in_cancelled)
             response.error != null -> presenter.showFireBaseAuthError(response.error!!)
             else -> Unit
         }
+    }
+
+    override fun findUnregisteredToken(liveData: QueryLiveData<DeviceToken>) {
+        liveData.observe(this, Observer {
+            if (it.status == Status.SUCCESS) {
+
+                it.data?.forEach { deviceToken ->
+                    presenter.removeUnregisteredToken(deviceToken.id)
+                }
+            } else if (it.status == Status.EMPTY) {
+                Timber.i("alla allaaaa (%)", it.data)
+                Toast.makeText(getContext(), "Liste boş :\\", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
+
     }
 
     override fun getContext(): Context? = this

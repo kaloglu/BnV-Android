@@ -1,8 +1,5 @@
 package com.kaloglu.bedavanevar.injection.module.splash
 
-import com.kaloglu.bedavanevar.data.LocalStorage
-import com.kaloglu.bedavanevar.data.repository.devicetoken.DeviceTokenRepository
-import com.kaloglu.bedavanevar.data.repository.user.UserRepository
 import com.kaloglu.bedavanevar.injection.module.ActivityModule
 import com.kaloglu.bedavanevar.injection.scopes.PerActivity
 import com.kaloglu.bedavanevar.mobileui.base.BaseActivity
@@ -23,18 +20,8 @@ abstract class SplashModule {
         @JvmStatic
         @Provides
         @PerActivity
-        fun presenter(
-                localStorage: LocalStorage,
-                userRepository: UserRepository,
-                deviceTokenRepository: DeviceTokenRepository,
-                genericDependencies: GenericDependencies
-        ): SplashContract.Presenter =
-                SplashPresenter(
-                        localStorage,
-                        userRepository,
-                        deviceTokenRepository,
-                        genericDependencies
-                )
+        fun presenter(genericDependencies: GenericDependencies): SplashContract.Presenter =
+                SplashPresenter(genericDependencies)
 
     }
 

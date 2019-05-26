@@ -5,8 +5,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.firebase.ui.auth.FirebaseUiException
+import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseUser
+import com.kaloglu.bedavanevar.data.LocalStorage
+import com.kaloglu.bedavanevar.data.repository.user.UserRepository
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.navigation.ActivityNavigator
 import com.kaloglu.bedavanevar.navigation.FragmentNavigator
@@ -16,8 +19,17 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
 
     val genericDependencies: GenericDependencies?
 
-    val loginUser: FirebaseUser?
+    var loginUser: FirebaseUser?
         get() = genericDependencies!!.loginUser
+        set(value) {
+            genericDependencies?.loginUser = value
+        }
+
+    val localStorage: LocalStorage
+        get() = genericDependencies!!.localStorage
+
+    val userRepository: UserRepository
+        get() = genericDependencies!!.userRepository
 
     val activityNavigator: ActivityNavigator
         get() = genericDependencies!!.activityNavigator
@@ -28,8 +40,8 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
     val requestCodeForSignIn: Int
         get() = 9999
 
-    @UiThread
-    fun checkAuth()
+//    @UiThread
+//    fun checkAuth()
 
     @UiThread
     fun attachView(view: V)
@@ -79,5 +91,10 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
 
     @UiThread
     fun showFireBaseAuthError(firebaseUiException: FirebaseUiException)
+
+    fun removeUnregisteredToken(deviceToken: String)
+
+    fun fillUserData()
+    fun addAuthListener()
 
 }

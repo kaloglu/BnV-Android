@@ -16,8 +16,8 @@ data class UserDetail @JvmOverloads constructor(
         @SerializedName("country") val country: String? = null,
         @SerializedName("age") val age: Int? = null,
         @SerializedName("gender") val gender: Gender? = null,
-        @SerializedName("deviceToken") val deviceToken: String = String.empty,
-        @SerializedName("profilePicUrl") val profilePicUrl: String? = null
+        @SerializedName("deviceToken") var deviceToken: String = String.empty,
+        @SerializedName("profilePicUrl") var profilePicUrl: String? = null
 ) : BaseModel() {
 
     data class Provider(

@@ -31,7 +31,9 @@ abstract class BaseRepository : Repository {
     override fun <M : BaseModel> add(model: M): Task<Void> {
         val newDocument: DocumentReference
         when {
-            model.id.isNotEmpty() -> newDocument = collectionRef.document(model.id)
+            model.id.isNotEmpty() -> {
+                newDocument = collectionRef.document(model.id)
+            }
             else -> {
                 newDocument = collectionRef.document()
                 model.id = newDocument.id

@@ -15,15 +15,15 @@ import dagger.Provides
 @Module
 abstract class ApplicationModule {
 
-    @Module
-    companion object {
-
-        @JvmStatic
-        @Provides
-        @PerApplication
-        fun provideloginUser(): FirebaseUser? = FirebaseAuth.getInstance().currentUser
-
-    }
+//    @Module
+//    companion object {
+//
+//        @JvmStatic
+//        @Provides
+//        @PerApplication
+//        fun provideloginUser(): FirebaseUser? = FirebaseAuth.getInstance().currentUser
+//
+//    }
 
     @ApplicationContext
     @Binds

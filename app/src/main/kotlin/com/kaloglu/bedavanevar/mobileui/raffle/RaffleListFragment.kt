@@ -2,8 +2,10 @@ package com.kaloglu.bedavanevar.mobileui.raffle
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
+import com.firebase.ui.auth.AuthUI
 import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.adapter.raffle.RaffleListAdapter
 import com.kaloglu.bedavanevar.domain.QueryLiveData
@@ -49,6 +51,11 @@ class RaffleListFragment
 
         fab.setOnClickListener {
             presenter.createRaffle()
+        }
+
+        textViewEmptyMessage.setOnClickListener {
+            Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show()
+            AuthUI.getInstance().signOut(context!!).addOnCompleteListener(presenter.signOut())
         }
     }
 
