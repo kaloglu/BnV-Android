@@ -4,33 +4,35 @@ sudo: required
 dist: trusty
 android:
   components:
-  - platform-tools
-  - tools
-  - build-tools-28.0.3
-  - android-28
-  - extra-android-m2repository
-  - extra-google-google_play_services
-  - extra-google-m2repository
+    - platform-tools
+    - tools
+    - build-tools-28.0.3
+    - android-28
+    - extra-android-m2repository
+    - extra-google-google_play_services
+    - extra-google-m2repository
 licenses:
-- android-sdk-preview-license-c81a61d9
-- android-sdk-license-.+
-- google-gdk-license-.+
+  - android-sdk-preview-license-c81a61d9
+  - android-sdk-license-.+
+  - google-gdk-license-.+
 addons:
   sonarcloud:
     organization: "kaloglu-github" # the key of the org you chose at step #3
+    token:
+      secure: $SONAR_TOKEN
 after_script:
-- ./commit.sh
-- sonar-scanner -Dsonar.verbose=true -X
+  - ./commit.sh
+  - sonar-scanner -Dsonar.verbose=true -X
 # - ./gradlew assembleClientBeta coveralls
 before_install:
-- chmod +x gradlew commit.sh
+  - chmod +x gradlew commit.sh
 branches:
   only:
-  - master
-  - develop
+    - master
+    - develop
 cache:
   directories:
-  - '$HOME/.m2/repository'
-  - '$HOME/.sonar/cache'
-  - '$HOME/.gradle'
-  - '.gradle'
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    - '$HOME/.gradle'
+    - '.gradle'

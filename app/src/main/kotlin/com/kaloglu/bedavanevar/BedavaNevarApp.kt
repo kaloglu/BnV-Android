@@ -1,24 +1,16 @@
 package com.kaloglu.bedavanevar
 
-import android.app.Activity
-import android.app.Application
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.kaloglu.bedavanevar.injection.DaggerApplicationComponent
 import com.kaloglu.bedavanevar.injection.scopes.PerApplication
 import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.DaggerApplication
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
-import javax.inject.Inject
-
 
 @PerApplication
-class BedavaNevarApp : Application(), HasActivityInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+class BedavaNevarApp : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
@@ -35,14 +27,16 @@ class BedavaNevarApp : Application(), HasActivityInjector {
                         .build()
         )
 
-        DaggerApplicationComponent
+
+
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        // We only provide its own Injector, the Application Injector,
+        // that is the previous AppComponent
+        return DaggerApplicationComponent
                 .builder()
                 .application(this)
                 .build()
-                .inject(this)
-    }
-
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return dispatchingAndroidInjector
     }
 }

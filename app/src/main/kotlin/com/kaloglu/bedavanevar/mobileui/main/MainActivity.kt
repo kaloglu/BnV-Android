@@ -2,6 +2,8 @@ package com.kaloglu.bedavanevar.mobileui.main
 
 import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.adapter.main.ViewPagerAdapter
+import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.mobileui.base.mvp.BaseMvpActivity
 import com.kaloglu.bedavanevar.mobileui.raffle.RaffleListFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.main.MainContract
@@ -28,5 +30,6 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
     }
 
     override fun showContentContainer(show: Boolean) = Unit
+
 
 }

@@ -1,6 +1,6 @@
 package com.kaloglu.bedavanevar.presentation.base
 
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.kaloglu.bedavanevar.injection.scopes.PerFragment
 import com.kaloglu.bedavanevar.mobileui.interfaces.UIStateManager
 import com.kaloglu.bedavanevar.navigation.ActivityNavigator
@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 @PerFragment
 class GenericListDependencies @Inject constructor(
-        override val firebaseAuth: FirebaseAuth,
-        override val activityNavigator: ActivityNavigator,
-        override val fragmentNavigator: FragmentNavigator,
+        loginUser: FirebaseUser?,
+        activityNavigator: ActivityNavigator,
+        fragmentNavigator: FragmentNavigator,
         var uiStateManager: UIStateManager
-) : GenericDependencies(firebaseAuth, activityNavigator, fragmentNavigator)
+) : GenericDependencies(loginUser, activityNavigator, fragmentNavigator)

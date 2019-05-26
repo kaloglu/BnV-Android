@@ -3,6 +3,7 @@ package com.kaloglu.bedavanevar.injection
 import android.app.Application
 import com.kaloglu.bedavanevar.BedavaNevarApp
 import com.kaloglu.bedavanevar.injection.module.ActivityBindingModule
+import com.kaloglu.bedavanevar.injection.module.ApplicationBindingModule
 import com.kaloglu.bedavanevar.injection.module.ApplicationModule
 import com.kaloglu.bedavanevar.injection.module.ContextModule
 import com.kaloglu.bedavanevar.injection.module.data.FirebaseModule
@@ -17,6 +18,7 @@ import dagger.android.support.AndroidSupportInjectionModule
     AndroidSupportInjectionModule::class,
     ActivityBindingModule::class,
     ApplicationModule::class,
+    ApplicationBindingModule::class,
     ContextModule::class,
     FirebaseModule::class
 ])

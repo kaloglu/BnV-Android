@@ -1,15 +1,14 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.base.mvp
 
 import androidx.annotation.UiThread
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import com.google.android.gms.tasks.Task
+import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.mobileui.interfaces.UIStateManager
 import com.kaloglu.bedavanevar.presentation.base.GenericListDependencies
 
-interface MvpListPresenter<M : BaseModel, V : MvpListView<M>>
-    : MvpPresenter<V>, UIStateManager.UIStatesPresenter, LifecycleObserver {
+interface MvpListPresenter<V : MvpListView>
+    : MvpPresenter<V>, UIStateManager.UIStatesPresenter {
 
     override val genericDependencies: GenericListDependencies?
 
@@ -17,22 +16,13 @@ interface MvpListPresenter<M : BaseModel, V : MvpListView<M>>
         get() = genericDependencies!!.uiStateManager
 
     @UiThread
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun attachLifecycle()
+    fun <M : BaseModel> remove(model: M): Task<Void>
 
     @UiThread
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun detachLifecycle()
+    fun <M : BaseModel> add(model: M): Task<Void>
 
     @UiThread
-    fun getLifeCycle(): Lifecycle
+    fun <M : BaseModel> openDetail(model: M)
 
-    @UiThread
-    fun observe()
-
-    @UiThread
-    fun remove(model: M)
-
-    @UiThread
-    fun openDetail(model: M)
+    fun <M : BaseModel> getData(): QueryLiveData<M>
 }

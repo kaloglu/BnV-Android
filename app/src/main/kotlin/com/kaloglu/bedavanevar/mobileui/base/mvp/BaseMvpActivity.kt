@@ -1,10 +1,12 @@
 package com.kaloglu.bedavanevar.mobileui.base.mvp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.mobileui.base.BaseActivity
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
@@ -41,11 +43,15 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
             super.onActivityResult(requestCode, resultCode, data)
                     .also {
                         when (requestCode) {
-                            presenter.requestCodeForSignIn -> handleSignInResult(data, resultCode)
+                            presenter.requestCodeForSignIn -> this.handleSignInResult(data, resultCode)
                         }
                     }
 
-    override fun initUserInterface() = Unit
+    override fun initUserInterface() {
+        FirebaseAuth.getInstance().addAuthStateListener {
+            presenter.genericDependencies?.loginUser = it.currentUser
+        }
+    }
 
     override fun onPresenterDetached() = Unit
 
@@ -60,14 +66,18 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
         Snackbar.make(findViewById(snackbarLayoutId), message, Snackbar.LENGTH_LONG).show()
     }
 
-    override fun handleSignInResult(data: Intent?, resultCode: Int) {
+    override fun <V : MvpView> V.handleSignInResult(data: Intent?, resultCode: Int) {
         val response = IdpResponse.fromResultIntent(data)
 
         return when {
-            resultCode == AppCompatActivity.RESULT_OK -> presenter.checkAuth()
+            resultCode == AppCompatActivity.RESULT_OK -> {
+                presenter.checkAuth()
+            }
             response == null -> showSnackbar(R.string.sign_in_cancelled)
             response.error != null -> presenter.showFireBaseAuthError(response.error!!)
             else -> Unit
         }
     }
+
+    override fun getContext(): Context? = this
 }

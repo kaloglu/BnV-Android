@@ -18,9 +18,9 @@ abstract class BaseMvpFragment<V : MvpView, P : MvpPresenter<V>> : BaseFragment(
         presenter.attachView(this as V)
     }
 
-    override fun getMvpActivity() = activity as MvpView
+    override fun getMvpActivity() = activity as BaseMvpActivity<*, *>
 
-    override fun handleSignInResult(data: Intent?, resultCode: Int) =
+    override fun <V : MvpView> V.handleSignInResult(data: Intent?, resultCode: Int) =
             getMvpActivity().handleSignInResult(data, resultCode)
 
     override fun showSnackbar(messageId: Int) = getMvpActivity().showSnackbar(messageId)

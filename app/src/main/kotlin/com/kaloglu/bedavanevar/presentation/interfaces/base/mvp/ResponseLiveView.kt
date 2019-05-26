@@ -2,9 +2,9 @@ package com.kaloglu.bedavanevar.presentation.interfaces.base.mvp
 
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 
-interface ResponseLiveListView: MvpView {
+interface ResponseLiveView<M : BaseModel> : MvpView {
     fun onLoading()
-    fun <M : BaseModel> onSuccess(data: List<M>)
+    fun onSuccess(data: M)
     fun onEmpty()
-    fun <M:BaseModel> onError(errorMessage: String?, data: List<M>?)
+    fun onError(errorMessage: String?, data: M?)
 }

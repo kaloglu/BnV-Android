@@ -1,6 +1,4 @@
-import groovy.transform.Field
-
-@Field static def layout_names = [
+project.ext.layout_names = [
         'activities',
         'fragments',
         'recycler_items',

@@ -8,7 +8,7 @@ import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.utils.extensions.inflate
 
-open class BottomSheetMenu<in M : BaseModel> : BottomSheetMenuView<M> {
+open class BottomSheetMenu: BottomSheetMenuView {
 
     override lateinit var bottomSheetView: View
 
@@ -16,11 +16,11 @@ open class BottomSheetMenu<in M : BaseModel> : BottomSheetMenuView<M> {
 
     override lateinit var bottomSheetDialog: BottomSheetDialog
 
-    override fun onClickBottomMenuItem(bottomSheetItem: M, bottomMenuItemView: View) = Unit
+    override fun <M : BaseModel> onClickBottomMenuItem(bottomSheetItem: M, bottomMenuItemView: View) = Unit
 
     override fun initBottomMenuView(viewGroup: ViewGroup) = Unit
 
-    private fun setAllItemViewClickListener(bottomSheetItem: M, bottomSheetView: ViewGroup) {
+    private fun <M : BaseModel> setAllItemViewClickListener(bottomSheetItem: M, bottomSheetView: ViewGroup) {
         bottomSheetView.forEach { view ->
             view
                     .takeIf { it.tag != null }
@@ -32,7 +32,7 @@ open class BottomSheetMenu<in M : BaseModel> : BottomSheetMenuView<M> {
         }
     }
 
-    override fun show(itemModel: M) {
+    override fun <M : BaseModel> show(itemModel: M) {
         initBottomMenuView(bottomSheetView as ViewGroup)
 
         setAllItemViewClickListener(itemModel, bottomSheetView as ViewGroup)

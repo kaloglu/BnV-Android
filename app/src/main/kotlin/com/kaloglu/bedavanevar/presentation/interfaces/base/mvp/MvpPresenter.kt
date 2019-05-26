@@ -1,20 +1,23 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.base.mvp
 
 import androidx.annotation.UiThread
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.firebase.ui.auth.FirebaseUiException
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.navigation.ActivityNavigator
 import com.kaloglu.bedavanevar.navigation.FragmentNavigator
 import com.kaloglu.bedavanevar.presentation.base.GenericDependencies
 
-interface MvpPresenter<V : MvpView> {
+interface MvpPresenter<V : MvpView> : LifecycleObserver {
 
     val genericDependencies: GenericDependencies?
 
-    val firebaseAuth: FirebaseAuth
-        get() = genericDependencies!!.firebaseAuth
+    val loginUser: FirebaseUser?
+        get() = genericDependencies!!.loginUser
 
     val activityNavigator: ActivityNavigator
         get() = genericDependencies!!.activityNavigator
@@ -41,7 +44,7 @@ interface MvpPresenter<V : MvpView> {
      * @throws [IllegalArgumentException] if no view is attached
      */
     @UiThread
-    fun getView(): V
+    fun getView(): V?
 
     /**
      * Checks if a view is attached to this presenter.
@@ -50,6 +53,17 @@ interface MvpPresenter<V : MvpView> {
      */
     @UiThread
     fun isViewAttached(): Boolean
+
+    @UiThread
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun attachLifecycle()
+
+    @UiThread
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun detachLifecycle()
+
+    @UiThread
+    fun getLifeCycle(): Lifecycle?
 
     @UiThread
     fun showFragment(fragment: BaseFragment?)
