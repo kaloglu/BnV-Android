@@ -29,7 +29,7 @@ before_install:
 branches:
   only:
     - master
-    - develop
+   # - develop
 cache:
   directories:
     - '$HOME/.m2/repository'
