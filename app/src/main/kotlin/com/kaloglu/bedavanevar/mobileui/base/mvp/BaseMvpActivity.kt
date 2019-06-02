@@ -3,7 +3,6 @@ package com.kaloglu.bedavanevar.mobileui.base.mvp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.firebase.ui.auth.IdpResponse
@@ -12,11 +11,11 @@ import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.enums.Status
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
+import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.mobileui.base.BaseActivity
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpView
-import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(), MvpView {
@@ -48,6 +47,7 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             presenter.requestCodeForSignIn -> this.handleSignInResult(data, resultCode)
+            presenter.requestCodeForLinking -> this.handleLinkingResult(data, resultCode)
         }
     }
 
@@ -70,34 +70,64 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
         val response = IdpResponse.fromResultIntent(data)
 
         return when {
-            resultCode == AppCompatActivity.RESULT_OK -> {
-                if (response != null) {
-                    presenter.onLogin()
-                }
-                return
-            }
             response == null -> showSnackbar(R.string.sign_in_cancelled)
             response.error != null -> presenter.showFireBaseAuthError(response.error!!)
             else -> Unit
         }
     }
 
+    override fun <V : MvpView> V.handleLinkingResult(data: Intent?, resultCode: Int) {
+        val response = IdpResponse.fromResultIntent(data)
+
+        return when (resultCode) {
+            AppCompatActivity.RESULT_OK -> {
+                if (response != null) {
+                    response.credentialForLinking?.let(presenter::linkAccount)
+                }
+                return
+            }
+            else -> handleSignInResult(data, resultCode)
+        }
+    }
+
     override fun findUnregisteredToken(liveData: QueryLiveData<DeviceToken>) {
         liveData.observe(this, Observer {
             if (it.status == Status.SUCCESS) {
-
                 it.data?.forEach { deviceToken ->
                     presenter.removeUnregisteredToken(deviceToken.id)
                 }
-            } else if (it.status == Status.EMPTY) {
-                Timber.i("alla allaaaa (%)", it.data)
-                Toast.makeText(getContext(), "Liste boş :\\", Toast.LENGTH_SHORT).show()
             }
 
         })
 
+    }
+
+    override fun findRegisteredUser(liveData: QueryLiveData<UserDetail>, newUserInfo: UserDetail) {
+        liveData.observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.forEach { userDetail ->
+                        presenter.updateUser(userDetail, newUserInfo)
+                    }
+                }
+                Status.EMPTY -> presenter.addUser(newUserInfo)
+                else -> {
+                }
+            }
+
+        })
 
     }
 
     override fun getContext(): Context? = this
+
+    override fun onResume() {
+        super.onResume()
+        presenter.addAuthListener()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.removeAuthListener()
+    }
 }

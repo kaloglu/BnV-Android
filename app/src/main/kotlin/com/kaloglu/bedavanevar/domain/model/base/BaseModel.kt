@@ -10,7 +10,6 @@ abstract class BaseModel : Serializable {
     @get:Exclude
     open var id: String = String.empty
 
-
     companion object {
         const val serialVersionUID = 1L
     }

@@ -188,7 +188,17 @@ ext.appDependencies = [
         addDependency('implementation', libraries.zelory),
 
         //test debug for room
-        addDependency('debugImplementation', 'com.amitshekhar.android:debug-db:1.0.4')
+        addDependency('debugImplementation', 'com.amitshekhar.android:debug-db:1.0.4'),
+
+        // Required only if Facebook login support is required
+        // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+        addDependency('implementation', 'com.facebook.android:facebook-login:5.0.1'),
+
+        // Required only if Twitter login support is required
+        // Find the latest Twitter SDK releases here: https://goo.gl/E5wZvQ
+        addDependency('implementation', 'com.twitter.sdk.android:twitter-core:3.3.0@aar', {
+            transitive = true
+        })
 ]
 
 static def addDependency(config, dependency) {

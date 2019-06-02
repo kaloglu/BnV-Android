@@ -18,4 +18,11 @@
     <string name="raffle_form_success_message">İşlem Başarılı!</string>
     <string name="raffle_bottom_menu_edit">Raffle Edit</string>
     <string name="raffle_bottom_menu_delete">Raffle Delete</string>
+
+    <string name="facebook_application_id">1319317821552127</string>
+    <string name="facebook_login_protocol_scheme">fb1319317821552127</string>
+
+    <string name="twitter_consumer_key" translatable="false">bfJ7MrT19Q1ltfUqXo15g</string>
+    <string name="twitter_consumer_secret" translatable="false">Jsx3lg6WE8oCWN8BnQiFjwrDf2i9c3q3BM8X0jzaU</string>
+
 </resources>

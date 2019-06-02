@@ -5,11 +5,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.firebase.ui.auth.FirebaseUiException
-import com.firebase.ui.auth.IdpResponse
-import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.kaloglu.bedavanevar.data.LocalStorage
 import com.kaloglu.bedavanevar.data.repository.user.UserRepository
+import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.navigation.ActivityNavigator
 import com.kaloglu.bedavanevar.navigation.FragmentNavigator
@@ -40,8 +41,8 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
     val requestCodeForSignIn: Int
         get() = 9999
 
-//    @UiThread
-//    fun checkAuth()
+    val requestCodeForLinking: Int
+        get() = 9998
 
     @UiThread
     fun attachView(view: V)
@@ -81,10 +82,12 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
     fun showFragment(fragment: BaseFragment?)
 
     @UiThread
-    fun signOut(): OnCompleteListener<Void>
+    fun signOut(): OnSuccessListener<Void>
 
     @UiThread
     fun onLogin()
+
+    fun linkAccount(authCredential: AuthCredential)
 
     @UiThread
     fun onLogout()
@@ -95,6 +98,10 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
     fun removeUnregisteredToken(deviceToken: String)
 
     fun fillUserData()
-    fun addAuthListener()
 
+    fun addAuthListener()
+    fun removeAuthListener()
+    fun updateUser(userDetail: UserDetail, newUserDetail: UserDetail)
+    fun addUser(userDetail: UserDetail)
+    fun linkUserAccount()
 }

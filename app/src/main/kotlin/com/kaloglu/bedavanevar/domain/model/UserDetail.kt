@@ -9,9 +9,9 @@ data class UserDetail @JvmOverloads constructor(
         @SerializedName("name") val fullname: String? = null,
         @SerializedName("username") val username: String? = null,
         @SerializedName("email") val email: String? = null,
-        @SerializedName("providers") val providers: List<Provider>? = emptyList(),
+        @SerializedName("providers") val providers: MutableList<Provider> = mutableListOf(),
         @SerializedName("address") val address: String? = null,
-        @SerializedName("gsm") val gsm: String? = null,
+        @SerializedName("gsm") var gsm: String? = null,
         @SerializedName("city") val city: String? = null,
         @SerializedName("country") val country: String? = null,
         @SerializedName("age") val age: Int? = null,
@@ -20,10 +20,9 @@ data class UserDetail @JvmOverloads constructor(
         @SerializedName("profilePicUrl") var profilePicUrl: String? = null
 ) : BaseModel() {
 
-    data class Provider(
-            @SerializedName("type") val type: String,
-            @SerializedName("deviceToken") val token: String,
-            @SerializedName("secret") val secret: String
+    data class Provider @JvmOverloads constructor(
+            override var id: String = String.empty,
+            @SerializedName("deviceToken") var token: String = String.empty
     ) : BaseModel()
 
     enum class Gender(val value: String) {
@@ -31,5 +30,6 @@ data class UserDetail @JvmOverloads constructor(
         FEMALE("Kadın"),
         TRANS("Trans");
     }
+
 
 }
