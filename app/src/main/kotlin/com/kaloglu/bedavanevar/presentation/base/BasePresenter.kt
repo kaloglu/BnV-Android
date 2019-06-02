@@ -5,7 +5,9 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseUiException
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthProvider
 import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.UserDetail
@@ -47,9 +49,30 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         viewRef = null
     }
 
-    @CallSuper
     override fun onLogin() {
         fillUserData()
+    }
+
+    override fun linkAccount(authCredential: AuthCredential) {
+        loginUser?.linkWithCredential(authCredential)?.addOnSuccessListener {
+            if (it.additionalUserInfo.isNewUser)
+                loginUser = it.user
+            else {
+                getView()?.showSnackbar("Bu kullanıcı için daha önce hesap oluşturulmuş.")
+            }
+        }
+    }
+
+    override fun linkUserAccount() {
+        loginUser?.providers?.let { providers ->
+            val providerList: MutableList<AuthUI.IdpConfig> = mutableListOf()
+            activityNavigator.providerList.forEach {
+                if (!providers.contains(it.providerId))
+                    providerList.add(it)
+            }
+
+            activityNavigator.toLinkActivity(requestCodeForLinking, providerList).navigate()
+        }
     }
 
     override fun getView() = when {
@@ -89,14 +112,41 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
                     deviceToken = localStorage.deviceToken,
                     profilePicUrl = photoUrl.toString()
             )
+            providerData.forEach {
+                if (it.providerId == FirebaseAuthProvider.PROVIDER_ID)
+                    return@forEach
+                userDetail.providers.add(
+                        UserDetail.Provider(
+                                id = it.providerId,
+                                token = localStorage.deviceToken
+                        )
+                )
+            }
 
-            userRepository
-                    .add(userDetail)
-                    .addOnSuccessListener {
-                        userDetail.checkUnregisterToken()
-                    }
-
+            getView()?.findRegisteredUser(
+                    userRepository.get(
+                            Filters()
+                                    .addEqualTo(
+                                            field = "email",
+                                            value = email!!
+                                    )
+                    ),
+                    userDetail
+            )
         }
+    }
+
+    override fun addUser(userDetail: UserDetail) {
+        userRepository.add(userDetail)
+    }
+
+
+    override fun updateUser(userDetail: UserDetail, newUserDetail: UserDetail) {
+        userDetail.deviceToken = localStorage.deviceToken
+        newUserDetail.providers.removeAll(userDetail.providers)
+        userDetail.providers.addAll(newUserDetail.providers)
+        userDetail.gsm = newUserDetail.gsm
+        userRepository.add(userDetail)
     }
 
     override fun removeUnregisteredToken(deviceToken: String) {

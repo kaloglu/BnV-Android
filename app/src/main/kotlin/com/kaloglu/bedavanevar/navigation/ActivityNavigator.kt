@@ -14,6 +14,11 @@ import javax.inject.Inject
 
 @PerActivity
 class ActivityNavigator @Inject constructor(val activity: AppCompatActivity) {
+    val providerList: MutableList<AuthUI.IdpConfig> =
+            Arrays.asList(
+                    AuthUI.IdpConfig.GoogleBuilder().build(),
+                    AuthUI.IdpConfig.FacebookBuilder().build()
+            )
 
     fun finishCurrentActivity() =
             NavigationCreator(activity).finishThis()
@@ -22,11 +27,6 @@ class ActivityNavigator @Inject constructor(val activity: AppCompatActivity) {
             NavigationCreator(activity).intent(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 
     fun toSignInActivity(requestCodeForSignIn: Int): NavigationCreator {
-
-        val providerList =
-                Arrays.asList(
-                        AuthUI.IdpConfig.GoogleBuilder().build()
-                )
 
         val intent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
@@ -38,6 +38,21 @@ class ActivityNavigator @Inject constructor(val activity: AppCompatActivity) {
         return NavigationCreator(activity)
                 .intent(intent)
                 .forResult(requestCodeForSignIn)
+    }
+
+
+    fun toLinkActivity(requestCodeForLink: Int, providerList: List<AuthUI.IdpConfig>): NavigationCreator {
+
+        val intent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAlwaysShowSignInMethodScreen(true)
+                .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
+                .setAvailableProviders(providerList)
+                .build()
+
+        return NavigationCreator(activity)
+                .intent(intent)
+                .forResult(requestCodeForLink)
     }
 
     @JvmOverloads

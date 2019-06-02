@@ -49,13 +49,10 @@ class RaffleListFragment
                 .setItemClickListener(::onClickItem)
                 .setViewClickListener(::onClickView)
 
-        fab.setOnClickListener {
-            presenter.createRaffle()
-        }
-
         textViewEmptyMessage.setOnClickListener {
             Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show()
             AuthUI.getInstance().signOut(context!!).addOnSuccessListener(presenter.signOut())
+//            presenter.linkUserAccount()
         }
     }
 

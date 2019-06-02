@@ -45,7 +45,7 @@ abstract class FirebaseModule {
         @Provides
         @Named(TableNames.DEVICE_TOKENS)
         fun deviceTokenDocument(firestore: FirebaseFirestore) =
-                firestore.collection(TableNames.DEVICE_TOKENS).document(TableNames.ADMIN_LIST)
+                firestore.collection(TableNames.DEVICE_TOKENS).document(TableNames.USER_LIST)
 
         @JvmStatic
         @PerApplication

@@ -18,14 +18,14 @@ abstract class BaseRepository : Repository {
             QueryLiveData(toQuery(filters), getModelClass() as Class<M>)
 
     override fun toQuery(filters: Filters?): Query {
+        var query: Query = collectionRef
+        query = applyOrderBy(query, filters)
 
-        applyOrderBy(collectionRef, filters)
+        query = applyFilter(query, filters)
 
-        applyFilter(collectionRef, filters)
+        query = applyLimit(query)
 
-        applyLimit(collectionRef)
-
-        return collectionRef
+        return query
     }
 
     override fun <M : BaseModel> add(model: M): Task<Void> {
@@ -46,24 +46,31 @@ abstract class BaseRepository : Repository {
     override fun remove(id: String) =
             collectionRef.document(id).delete()
 
-    protected open fun applyLimit(collectionReference: CollectionReference) {
-        collectionReference.limit(getLimit())
+    protected open fun applyLimit(query: Query): Query {
+        var queryT = query
+        queryT = query.limit(getLimit())
+        return queryT
     }
 
-    protected open fun applyOrderBy(collectionReference: CollectionReference, filters: Filters?) {
+    protected open fun applyOrderBy(query: Query, filters: Filters?): Query {
+        var queryT = query
         filters?.run {
             sortMap.entries.forEach {
-                collectionReference.orderBy(it.key, it.value)
+                queryT = query.orderBy(it.key, it.value)
             }
         }
+        return queryT
     }
 
-    protected open fun applyFilter(collectionReference: CollectionReference, filters: Filters?) {
+    protected open fun applyFilter(query: Query, filters: Filters?): Query {
+        var queryT: Query = query
         filters?.run {
             equalToMap.entries.forEach {
-                collectionReference.whereEqualTo(it.key, it.value)
+                queryT = query.whereEqualTo(it.key, it.value)
             }
         }
+
+        return queryT
     }
 
     protected open fun getLimit(): Long = DEFAULT_QUERY_LIMIT

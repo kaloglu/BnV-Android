@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
+import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpView
@@ -25,8 +26,15 @@ abstract class BaseMvpFragment<V : MvpView, P : MvpPresenter<V>> : BaseFragment(
     override fun <V : MvpView> V.handleSignInResult(data: Intent?, resultCode: Int) =
             getMvpActivity().handleSignInResult(data, resultCode)
 
+    override fun <V : MvpView> V.handleLinkingResult(data: Intent?, resultCode: Int) =
+            getMvpActivity().handleLinkingResult(data, resultCode)
+
     override fun findUnregisteredToken(liveData: QueryLiveData<DeviceToken>) {
         getMvpActivity().findUnregisteredToken(liveData)
+    }
+
+    override fun findRegisteredUser(liveData: QueryLiveData<UserDetail>, newUserInfo: UserDetail) {
+        getMvpActivity().findRegisteredUser(liveData, newUserInfo)
     }
 
     override fun showSnackbar(messageId: Int) = getMvpActivity().showSnackbar(messageId)

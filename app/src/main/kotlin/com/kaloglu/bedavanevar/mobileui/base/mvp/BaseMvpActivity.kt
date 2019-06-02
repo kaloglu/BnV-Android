@@ -11,6 +11,7 @@ import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.enums.Status
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
+import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.mobileui.base.BaseActivity
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
@@ -46,6 +47,7 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             presenter.requestCodeForSignIn -> this.handleSignInResult(data, resultCode)
+            presenter.requestCodeForLinking -> this.handleLinkingResult(data, resultCode)
         }
     }
 
@@ -68,15 +70,23 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
         val response = IdpResponse.fromResultIntent(data)
 
         return when {
-            resultCode == AppCompatActivity.RESULT_OK -> {
-                if (response != null) {
-                    presenter.onLogin()
-                }
-                return
-            }
             response == null -> showSnackbar(R.string.sign_in_cancelled)
             response.error != null -> presenter.showFireBaseAuthError(response.error!!)
             else -> Unit
+        }
+    }
+
+    override fun <V : MvpView> V.handleLinkingResult(data: Intent?, resultCode: Int) {
+        val response = IdpResponse.fromResultIntent(data)
+
+        return when (resultCode) {
+            AppCompatActivity.RESULT_OK -> {
+                if (response != null) {
+                    response.credentialForLinking?.let(presenter::linkAccount)
+                }
+                return
+            }
+            else -> handleSignInResult(data, resultCode)
         }
     }
 
@@ -90,6 +100,22 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
 
         })
 
+    }
+
+    override fun findRegisteredUser(liveData: QueryLiveData<UserDetail>, newUserInfo: UserDetail) {
+        liveData.observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.forEach { userDetail ->
+                        presenter.updateUser(userDetail, newUserInfo)
+                    }
+                }
+                Status.EMPTY -> presenter.addUser(newUserInfo)
+                else -> {
+                }
+            }
+
+        })
 
     }
 

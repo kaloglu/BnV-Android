@@ -7,6 +7,7 @@ import androidx.annotation.UiThread
 import androidx.lifecycle.LifecycleOwner
 import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
+import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.mobileui.base.mvp.BaseMvpActivity
 
 interface MvpView : LifecycleOwner {
@@ -23,6 +24,8 @@ interface MvpView : LifecycleOwner {
     @UiThread
     fun <V : MvpView> V.handleSignInResult(data: Intent?, resultCode: Int)
 
+    fun <V : MvpView> V.handleLinkingResult(data: Intent?, resultCode: Int)
+
     @UiThread
     fun onPresenterAttached()
 
@@ -33,4 +36,6 @@ interface MvpView : LifecycleOwner {
     fun getMvpActivity(): BaseMvpActivity<*, *>
 
     fun findUnregisteredToken(liveData: QueryLiveData<DeviceToken>)
+
+    fun findRegisteredUser(liveData: QueryLiveData<UserDetail>, newUserInfo: UserDetail)
 }
