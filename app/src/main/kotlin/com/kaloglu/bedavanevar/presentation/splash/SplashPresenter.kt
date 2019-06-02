@@ -11,6 +11,7 @@ class SplashPresenter @Inject constructor(override val genericDependencies: Gene
     : BasePresenter<SplashContract.View>(), SplashContract.Presenter {
 
     override fun onLogin() {
+        super.onLogin()
         activityNavigator
                 .toMainActivity()
                 .singleTop()

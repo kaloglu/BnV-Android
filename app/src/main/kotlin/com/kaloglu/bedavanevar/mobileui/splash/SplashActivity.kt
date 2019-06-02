@@ -10,9 +10,4 @@ class SplashActivity : BaseMvpActivity<SplashContract.View, SplashContract.Prese
 
     override val snackbarLayoutId: Int = R.id.sign_in_container
 
-    override fun onPresenterAttached() {
-        super.onPresenterAttached()
-        presenter.addAuthListener()
-
-    }
 }

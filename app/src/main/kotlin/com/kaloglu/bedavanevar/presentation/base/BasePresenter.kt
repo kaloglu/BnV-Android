@@ -1,9 +1,10 @@
 package com.kaloglu.bedavanevar.presentation.base
 
 import androidx.annotation.CallSuper
+import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseUiException
-import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.domain.filters.Filters
@@ -18,38 +19,19 @@ import java.lang.ref.WeakReference
  * Base implementation for presenter
  * */
 abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
+    override val genericDependencies: GenericDependencies? = null
+        get() = field.checkInjection()
+
+    private var viewRef: WeakReference<V>? = null
+
     private val authListener: FirebaseAuth.AuthStateListener = FirebaseAuth.AuthStateListener {
         loginUser = it.currentUser
         if (loginUser == null) {
             onLogout()
         } else {
             onLogin()
-            fillUserData()
         }
     }
-
-    private fun UserDetail.checkUnregisterToken() {
-        getView()?.findUnregisteredToken(
-                userRepository
-                        .getDeviceToken(
-                                Filters()
-                                        .addEqualTo(
-                                                field = "deviceToken",
-                                                value = deviceToken
-                                        )
-                        )
-        )
-
-    }
-
-    override fun removeUnregisteredToken(deviceToken: String) {
-        userRepository.removeDeviceToken(deviceToken)
-    }
-
-    override val genericDependencies: GenericDependencies? = null
-        get() = field.checkInjection()
-
-    private var viewRef: WeakReference<V>? = null
 
     @CallSuper
     @Suppress("UNCHECKED_CAST")
@@ -58,10 +40,16 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         view.onPresenterAttached()
     }
 
+    @CallSuper
     final override fun detachView() {
         getView()?.onPresenterDetached()
         viewRef?.clear()
         viewRef = null
+    }
+
+    @CallSuper
+    override fun onLogin() {
+        fillUserData()
     }
 
     override fun getView() = when {
@@ -69,11 +57,53 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         else -> null
     }
 
-    final override fun isViewAttached() = viewRef != null && viewRef?.get() != null
-
-    final override fun showFragment(fragment: BaseFragment?) {
-        fragment?.let(fragmentNavigator::showFragment)
+    override fun signOut() = OnSuccessListener<Void> {
+        activityNavigator
+                .toSplashScreen()
+                .finishThis()
+                .navigate()
     }
+
+    override fun addAuthListener() {
+        FirebaseAuth.getInstance().addAuthStateListener(authListener)
+    }
+
+    override fun removeAuthListener() {
+        FirebaseAuth.getInstance().removeAuthStateListener(authListener)
+    }
+
+    override fun onLogout() {
+        removeAuthListener()
+        activityNavigator
+                .toSignInActivity(requestCodeForSignIn)
+                .navigate()
+    }
+
+    override fun fillUserData() {
+        loginUser?.run {
+            val userDetail = UserDetail(
+                    id = uid,
+                    fullname = displayName,
+                    email = email,
+                    gsm = phoneNumber,
+                    deviceToken = localStorage.deviceToken,
+                    profilePicUrl = photoUrl.toString()
+            )
+
+            userRepository
+                    .add(userDetail)
+                    .addOnSuccessListener {
+                        userDetail.checkUnregisterToken()
+                    }
+
+        }
+    }
+
+    override fun removeUnregisteredToken(deviceToken: String) {
+        userRepository.removeDeviceToken(deviceToken)
+    }
+
+    final override fun isViewAttached() = viewRef != null && viewRef?.get() != null
 
     final override fun showFireBaseAuthError(firebaseUiException: FirebaseUiException) {
         getView()?.showSnackbar(
@@ -90,58 +120,7 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         )
     }
 
-//    @UiThread
-//    @CallSuper
-//    override fun checkAuth() {
-//        if (loginUser != null) onLogin() else Unit
-//    }
-
-    override fun signOut() = OnCompleteListener<Void> {
-        if (it.isSuccessful) {
-            activityNavigator
-                    .toSplashScreen()
-                    .finishThis()
-                    .navigate()
-        }
-    }
-
-    override fun onLogin() = Unit
-
-    override fun addAuthListener() {
-        FirebaseAuth.getInstance().addAuthStateListener(authListener)
-    }
-
-    override fun onLogout() {
-        FirebaseAuth.getInstance().removeAuthStateListener(authListener)
-        activityNavigator
-                .toSignInActivity(requestCodeForSignIn)
-                .navigate()
-    }
-
-    override fun fillUserData() {
-        if (loginUser == null)
-            onLogout()
-        else
-            loginUser!!.run {
-                val userDetail = UserDetail(
-                        id = uid,
-                        fullname = displayName,
-                        email = email,
-                        gsm = phoneNumber,
-                        deviceToken = localStorage.deviceToken,
-                        profilePicUrl = photoUrl.toString()
-                )
-
-                userRepository
-                        .add(userDetail)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                userDetail.checkUnregisterToken()
-                            }
-                        }
-
-            }
-    }
+    final override fun getLifeCycle() = getView()?.lifecycle
 
     final override fun attachLifecycle() {
         getLifeCycle()?.addObserver(this)
@@ -151,6 +130,22 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         getLifeCycle()?.removeObserver(this)
     }
 
-    final override fun getLifeCycle() = getView()?.lifecycle
+    final override fun showFragment(fragment: BaseFragment?) {
+        fragment?.let(fragmentNavigator::showFragment)
+    }
+
+    private fun UserDetail.checkUnregisterToken() {
+        getView()?.findUnregisteredToken(
+                userRepository
+                        .getDeviceToken(
+                                Filters()
+                                        .addEqualTo(
+                                                field = "deviceToken",
+                                                value = deviceToken
+                                        )
+                        )
+        )
+
+    }
 
 }

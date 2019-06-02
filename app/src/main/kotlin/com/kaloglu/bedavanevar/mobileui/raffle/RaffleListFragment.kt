@@ -55,7 +55,7 @@ class RaffleListFragment
 
         textViewEmptyMessage.setOnClickListener {
             Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show()
-            AuthUI.getInstance().signOut(context!!).addOnCompleteListener(presenter.signOut())
+            AuthUI.getInstance().signOut(context!!).addOnSuccessListener(presenter.signOut())
         }
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.firebase.ui.auth.FirebaseUiException
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseUser
 import com.kaloglu.bedavanevar.data.LocalStorage
 import com.kaloglu.bedavanevar.data.repository.user.UserRepository
@@ -39,9 +40,6 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
 
     val requestCodeForSignIn: Int
         get() = 9999
-
-//    @UiThread
-//    fun checkAuth()
 
     @UiThread
     fun attachView(view: V)
@@ -81,7 +79,7 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
     fun showFragment(fragment: BaseFragment?)
 
     @UiThread
-    fun signOut(): OnCompleteListener<Void>
+    fun signOut(): OnSuccessListener<Void>
 
     @UiThread
     fun onLogin()
@@ -95,6 +93,7 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
     fun removeUnregisteredToken(deviceToken: String)
 
     fun fillUserData()
-    fun addAuthListener()
 
+    fun addAuthListener()
+    fun removeAuthListener()
 }

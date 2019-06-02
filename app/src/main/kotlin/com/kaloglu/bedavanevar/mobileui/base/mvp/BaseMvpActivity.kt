@@ -3,7 +3,6 @@ package com.kaloglu.bedavanevar.mobileui.base.mvp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.firebase.ui.auth.IdpResponse
@@ -16,7 +15,6 @@ import com.kaloglu.bedavanevar.mobileui.base.BaseActivity
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpView
-import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(), MvpView {
@@ -85,13 +83,9 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
     override fun findUnregisteredToken(liveData: QueryLiveData<DeviceToken>) {
         liveData.observe(this, Observer {
             if (it.status == Status.SUCCESS) {
-
                 it.data?.forEach { deviceToken ->
                     presenter.removeUnregisteredToken(deviceToken.id)
                 }
-            } else if (it.status == Status.EMPTY) {
-                Timber.i("alla allaaaa (%)", it.data)
-                Toast.makeText(getContext(), "Liste boş :\\", Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -100,4 +94,14 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
     }
 
     override fun getContext(): Context? = this
+
+    override fun onResume() {
+        super.onResume()
+        presenter.addAuthListener()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.removeAuthListener()
+    }
 }
