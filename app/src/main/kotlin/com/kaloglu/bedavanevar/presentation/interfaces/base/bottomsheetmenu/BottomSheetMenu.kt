@@ -8,7 +8,7 @@ import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.utils.extensions.inflate
 
-open class BottomSheetMenu: BottomSheetMenuView {
+open class BottomSheetMenu : BottomSheetMenuView {
 
     override lateinit var bottomSheetView: View
 

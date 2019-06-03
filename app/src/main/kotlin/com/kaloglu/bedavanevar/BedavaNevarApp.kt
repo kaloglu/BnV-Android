@@ -28,7 +28,6 @@ class BedavaNevarApp : DaggerApplication() {
         )
 
 
-
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

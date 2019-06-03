@@ -1,30 +1,40 @@
 package com.kaloglu.bedavanevar.domain.model
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
-import com.kaloglu.bedavanevar.domain.enums.UnitType
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.utils.extensions.empty
 
 @IgnoreExtraProperties
 data class Raffle @JvmOverloads constructor(
-        @SerializedName("title") var title: String = String.empty,
-        @SerializedName("description") var description: String = String.empty,
-        @SerializedName("count") var count: Int = 1,
-        @SerializedName("unit") var unitType: String = String.empty,
-        @SerializedName("unitPrice") var unitPriceDouble: Double = 0.0,
-        @SerializedName("startDate") var startDate: Long? = null,
-        @SerializedName("endDate") var endDate: Long? = null,
-        @SerializedName("maxAttendee") var maxAttendee: Int = Short.MAX_VALUE.toInt(),
-        @SerializedName("maxAttendForUser") var maxAttendForUser: Int = Short.MAX_VALUE.toInt(),
-        @SerializedName("images") var images: List<Media>? = emptyList(),
+        override var id: String = String.empty,
+        @SerializedName("title") var title: String? = String.empty,
+        @SerializedName("description") var description: String? = String.empty,
+        @SerializedName("startDate") var startDate: Timestamp? = null,
+        @SerializedName("endDate") var endDate: Timestamp? = null,
+        @SerializedName("rules") var rules: RaffleRules? = null,
+        @SerializedName("productInfo") var productInfo: ProductInfo? = null,
         @SerializedName("attendees") var attendees: List<Attendee>? = emptyList()
 ) : BaseModel() {
 
-    val unitPrice: Money
-        get() = Money.of(unitPriceDouble)
+    data class RaffleRules @JvmOverloads constructor(
+            @SerializedName("maxAttendee") var maxAttendee: Int? = 1,
+            @SerializedName("maxAttendByUser") var maxAttendByUser: Int? = 1
+    )
 
-    val unit: UnitType
-        get() = UnitType.convert(unitType)
+    data class ProductInfo @JvmOverloads constructor(
+            @SerializedName("name") var name: String? = String.empty,
+            @SerializedName("images") var images: List<Media>? = emptyList(),
+            @SerializedName("count") var count: String? = "1",
+            @SerializedName("unit") var unit: String? = String.empty,
+            @SerializedName("unitPrice") var unitPrice: Double? = 0.0
+    )
+
+//    val unitPrice: Money
+//        get() = Money.of(unitPriceDouble)
+//
+//    val unit: UnitType
+//        get() = UnitType.convert(unitType)
 
 }

@@ -1,8 +1,8 @@
 package com.kaloglu.bedavanevar.navigation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import androidx.annotation.AnimRes
+import androidx.appcompat.app.AppCompatActivity
 
 class NavigationCreator internal constructor(private val activity: AppCompatActivity) {
 

@@ -2,10 +2,9 @@ package com.kaloglu.bedavanevar.domain.repository.interfaces
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Query
+import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
-import com.kaloglu.bedavanevar.domain.FireStoreLiveList
-import com.kaloglu.bedavanevar.domain.QueryLiveData
 
 interface Repository {
 

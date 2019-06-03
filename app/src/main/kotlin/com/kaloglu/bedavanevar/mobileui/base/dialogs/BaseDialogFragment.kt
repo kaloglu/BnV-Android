@@ -31,6 +31,7 @@ abstract class BaseDialogFragment : AppCompatDialogFragment() {
         onDialogWindow(dialog.window!!)
         return dialog
     }
+
     open fun initStyle() = Unit //setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Style_Dialog)
 
     open fun onDialogWindow(window: Window) {

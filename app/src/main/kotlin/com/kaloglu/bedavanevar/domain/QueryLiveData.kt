@@ -8,7 +8,7 @@ import com.kaloglu.bedavanevar.viewobjects.Resource
 class QueryLiveData<T : BaseModel>(
         private val query: Query,
         private val typeClazz: Class<T>
-) : LiveData<Resource<List<T>>>(), EventListener<QuerySnapshot>{
+) : LiveData<Resource<List<T>>>(), EventListener<QuerySnapshot> {
 
     private var registration: ListenerRegistration? = null
 
