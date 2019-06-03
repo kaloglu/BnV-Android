@@ -32,7 +32,7 @@ def versions = [
         ktxVersion          : '1.0.0',
         supportLibrary      : '1.0.0',
         supportLibraryRC01  : '1.0.0-rc01',
-        constraintLayout    : '1.1.2',
+        constraintLayout    : '1.1.3',
         room                : '2.0.0-rc01',
         lifecycle           : '2.0.0-rc01',
         dagger              : '2.16',
@@ -84,7 +84,6 @@ def libraries = [
         supportDesign      : "com.google.android.material:material:$versions.supportLibrary",
 
         constraintLayout   : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
-
         // Room
         roomRuntime        : "androidx.room:room-runtime:$versions.room",
         roomCompiler       : "androidx.room:room-compiler:$versions.room",
@@ -186,6 +185,7 @@ ext.appDependencies = [
         addDependency('implementation', libraries.retrofitLogging),
         addDependency('implementation', libraries.materialDialog),
         addDependency('implementation', libraries.zelory),
+        addDependency('implementation', 'com.squareup.picasso:picasso:2.71828'),
 
         //test debug for room
         addDependency('debugImplementation', 'com.amitshekhar.android:debug-db:1.0.4'),

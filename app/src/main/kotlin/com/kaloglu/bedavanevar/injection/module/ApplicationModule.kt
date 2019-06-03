@@ -2,15 +2,12 @@ package com.kaloglu.bedavanevar.injection.module
 
 import android.app.Application
 import android.content.Context
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.kaloglu.bedavanevar.BedavaNeVarMessagingService
 import com.kaloglu.bedavanevar.injection.qualifier.ApplicationContext
 import com.kaloglu.bedavanevar.injection.scopes.PerApplication
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 @Module
 abstract class ApplicationModule {

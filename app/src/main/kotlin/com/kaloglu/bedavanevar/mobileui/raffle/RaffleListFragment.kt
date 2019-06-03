@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.raffle_list_loading.*
 class RaffleListFragment
     : BaseMvpListFragment<Raffle, RaffleContract.ListView, RaffleContract.ListPresenter>()
         , RaffleContract.ListView {
+
     private lateinit var adapter: RaffleListAdapter
 
     override val resourceLayoutId = R.layout.fragment_raffle_list

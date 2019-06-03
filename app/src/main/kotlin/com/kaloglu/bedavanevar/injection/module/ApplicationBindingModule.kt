@@ -9,7 +9,7 @@ import javax.inject.Singleton
 abstract class ApplicationBindingModule {
 
     @Singleton
-    @ContributesAndroidInjector(modules=[ContextModule::class])
+    @ContributesAndroidInjector(modules = [ContextModule::class])
     abstract fun contributesService(): BedavaNeVarMessagingService
 
 }
