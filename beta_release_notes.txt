@@ -1,3 +1,4 @@
-31328ae Merge branch 'develop'
-02eb1e1 Fix signing issues
-23626c0 add New steps for auth control
+d134c79 Merge branch 'develop'
+6a6e66a Add firestore fetching for raffle list
+f6690ca Merge pull request #2 from kaloglu/develop
+c4778eb [ci skip] update travis
