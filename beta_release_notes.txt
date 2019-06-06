@@ -1,4 +1,2 @@
-d134c79 Merge branch 'develop'
-6a6e66a Add firestore fetching for raffle list
-f6690ca Merge pull request #2 from kaloglu/develop
-c4778eb [ci skip] update travis
+465c682 Merge branch 'develop'
+697ccb3 Add simple detail view
