@@ -18,12 +18,16 @@ import com.kaloglu.bedavanevar.utils.extensions.GenericExtensions.DECIMAL_FORMAT
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.HashMap
 import java.util.Locale
 import kotlin.collections.ArrayList
 import kotlin.reflect.KProperty1
 
 object GenericExtensions {
+    const val DateStringPattern = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+    const val UIDateStringPattern = "dd MMM HH:mm"
+
     val LOCALE_TR = Locale("tr", "TR")
 
     val DECIMAL_FORMAT = DecimalFormat.getInstance() as DecimalFormat
@@ -34,6 +38,8 @@ object GenericExtensions {
 
     val TURKISH_CHARS = arrayOf("ş", "Ş", "ğ", "Ğ", "ı", "İ", "ü", "Ü", "ö", "Ö", "ç", "Ç")
     val NEUTRAL_CHARS = arrayOf("DateStringPattern", "S", "g", "G", "i", "I", "u", "U", "o", "CommentsCallBack", "c", "C")
+
+    val UI_DATE_FORMAT = SimpleDateFormat(UIDateStringPattern, LOCALE_TR)
 
 }
 

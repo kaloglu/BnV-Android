@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="start_date_text"><![CDATA[ <b>%1s</b> tarihinde başlayacak.]]></string>
+    <string name="end_date_text"><![CDATA[ <b>%1s</b> tarihinde sonlanacak.]]></string>
+    <string name="max_attend_by_user_text"><![CDATA[Kişi başı en fazla katılım sayısı: <b>%1d</b>]]></string>
+    <string name="max_attendee_text"><![CDATA[Maksimum katılım sayısı: <b>%1$d</b>]]></string>
+    <string name="unit_price_text"><![CDATA[Ürün değeri: <b>%1$.2f TL</b>]]></string>
+    <string name="product_info_text"><![CDATA[<b>%1$s %2$s</b> %3$s]]></string>
+
+</resources>

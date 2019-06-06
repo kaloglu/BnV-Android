@@ -2,14 +2,14 @@
 
 package com.kaloglu.bedavanevar.utils.extensions
 
+import com.google.firebase.Timestamp
+import com.kaloglu.bedavanevar.utils.extensions.GenericExtensions.DateStringPattern
 import com.kaloglu.bedavanevar.utils.extensions.GenericExtensions.LOCALE_TR
+import com.kaloglu.bedavanevar.utils.extensions.GenericExtensions.UI_DATE_FORMAT
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-
-const val DateStringPattern = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-const val UIDateStringPattern = "dd MMM HH:mm"
 
 fun Date.isToday(): Boolean = isSameDay(Date())
 
@@ -68,31 +68,23 @@ fun Long?.toDateTime(datePattern: String = DateStringPattern): String {
 }
 
 fun currentTime(): Long {
-    return System.currentTimeMillis() / 1000
+    return System.currentTimeMillis()
 }
 
-fun Long.toFormattedDate(): String {
-    val format = SimpleDateFormat(UIDateStringPattern, LOCALE_TR)
-    return format.format(Date(this))
-}
+fun Date.toFormattedDate() = UI_DATE_FORMAT.format(this)
+
+fun Long.toFormattedDate() = Date(this).toFormattedDate()
+
+fun Timestamp.toFormattedDate() = toDate().toFormattedDate()
 
 fun String?.toFormattedDate(): String {
     if (this == null)
         return ""
-    //this format createdDate we want
-    val mSDF = SimpleDateFormat(UIDateStringPattern, LOCALE_TR)
 
-    //this format createdDate actully present
     val formatter = SimpleDateFormat(DateStringPattern, LOCALE_TR)
 
-    var result = ""
-    try {
-        result = mSDF.format(formatter.parse(this))
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
+    return formatter.parse(this).toFormattedDate()
 
-    return result
 }
 
 @JvmOverloads
@@ -102,7 +94,7 @@ fun String?.toTimeStampLong(dateStringPattern: String = DateStringPattern): Long
         return timeStamp
 
     try {
-        timeStamp = SimpleDateFormat(dateStringPattern, LOCALE_TR).parse(this).time / 1000
+        timeStamp = SimpleDateFormat(dateStringPattern, LOCALE_TR).parse(this).time
     } catch (e: ParseException) {
         e.printStackTrace()
     } finally {

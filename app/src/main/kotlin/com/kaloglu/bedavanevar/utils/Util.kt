@@ -92,7 +92,7 @@ class Util {
                 try {
                     out = FileOutputStream(copyFile)
                     bmp.compress(Bitmap.CompressFormat.PNG, 85, out) // bmp is your Bitmap instance
-                    // PNG is a lossless format, the compression factor (100) is ignored
+                    // PNG is a lossless UI_DATE_FORMAT, the compression factor (100) is ignored
 
                     return copyFile
                 } catch (e: Exception) {

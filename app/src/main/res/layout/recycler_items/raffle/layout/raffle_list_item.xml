@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
     app:cardCornerRadius="6dp"
     app:cardElevation="4dp"
     app:cardPreventCornerOverlap="true"
@@ -40,7 +39,7 @@
             app:layout_constraintEnd_toStartOf="@id/raffleName"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toTopOf="@+id/guidelineTop"
-            app:srcCompat="@drawable/ic_add" />
+            tools:srcCompat="@drawable/ic_add" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/raffleName"
@@ -108,7 +107,7 @@
             app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/startDate"
+            android:id="@+id/textViewStartDate"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="4dp"
@@ -124,25 +123,23 @@
             android:id="@+id/sprtr"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="2dp"
             android:gravity="bottom"
             android:text="-"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
-            app:layout_constraintEnd_toStartOf="@id/endDate"
-            app:layout_constraintTop_toBottomOf="@id/productName" />
+            app:layout_constraintEnd_toStartOf="@id/textViewEndDate"
+            app:layout_constraintTop_toTopOf="@id/textViewStartDate" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/endDate"
+            android:id="@+id/textViewEndDate"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="4dp"
             android:gravity="bottom"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-            app:layout_constraintTop_toBottomOf="@id/productName"
+            app:layout_constraintTop_toTopOf="@id/textViewStartDate"
             tools:text="3 Haziran 18:00" />
 
         <androidx.constraintlayout.widget.Guideline
