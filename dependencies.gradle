@@ -30,9 +30,10 @@ def versions = [
         multidex            : '2.0.0',
         kotlin              : '1.3.21',
         ktxVersion          : '1.0.0',
+        appCompatX          : '1.0.2',
         supportLibrary      : '1.0.0',
         supportLibraryRC01  : '1.0.0-rc01',
-        constraintLayout    : '1.1.3',
+        constraintLayout    : '2.0.0-beta1',
         room                : '2.0.0-rc01',
         lifecycle           : '2.0.0-rc01',
         dagger              : '2.16',
@@ -73,7 +74,7 @@ def libraries = [
         kotlinReflect      : "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin",
 
         // Support Libraries
-        appCompatV7        : "androidx.appcompat:appcompat:$versions.supportLibrary",
+        appCompatX         : "androidx.appcompat:appcompat:$versions.appCompatX",
         cardView           : "androidx.cardview:cardview:$versions.supportLibrary",
         recylerView        : "androidx.recyclerview:recyclerview:$versions.supportLibrary",
         supportV4          : "androidx.legacy:legacy-support-v4:$versions.supportLibrary",
@@ -141,7 +142,7 @@ ext.appDependencies = [
         addDependency('implementation', libraries.kotlin),
         addDependency('implementation', libraries.kotlinReflect),
 
-        addDependency('implementation', libraries.appCompatV7),
+        addDependency('implementation', libraries.appCompatX),
         addDependency('implementation', libraries.supportDesign),
         addDependency('implementation', libraries.recylerView),
         addDependency('implementation', libraries.supportV4),

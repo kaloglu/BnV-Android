@@ -144,7 +144,7 @@ class Money private constructor(b: BigDecimal) : Serializable {
     }
 
     /**
-     * Create Money Format Builder to custom string format
+     * Create Money Format Builder to custom string UI_DATE_FORMAT
      *
      * @return Created Money Format Builder object
      */
@@ -172,7 +172,7 @@ class Money private constructor(b: BigDecimal) : Serializable {
         internal var alwaysPenny = false
 
         /**
-         * Add TL sign into format
+         * Add TL sign into UI_DATE_FORMAT
          *
          * @return Updated Money Format Builder object
          */
@@ -182,7 +182,7 @@ class Money private constructor(b: BigDecimal) : Serializable {
         }
 
         /**
-         * Add decimal values (penny or kuruş) into format
+         * Add decimal values (penny or kuruş) into UI_DATE_FORMAT
          *
          * @return Updated Money Format Builder object
          */
