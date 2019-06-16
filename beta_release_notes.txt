@@ -1,2 +1,2 @@
-465c682 Merge branch 'develop'
-697ccb3 Add simple detail view
+81a6eb7 Merge branch 'develop'
+6709e5a Enroll to Raffle
