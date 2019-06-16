@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
 import com.kaloglu.bedavanevar.R
+import com.kaloglu.bedavanevar.domain.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.enums.Status
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
@@ -102,13 +103,11 @@ abstract class BaseMvpActivity<V : MvpView, P : MvpPresenter<V>> : BaseActivity(
 
     }
 
-    override fun findRegisteredUser(liveData: QueryLiveData<UserDetail>, newUserInfo: UserDetail) {
+    override fun findRegisteredUser(liveData: DocumentLiveData<UserDetail>, newUserInfo: UserDetail) {
         liveData.observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    it.data?.forEach { userDetail ->
-                        presenter.updateUser(userDetail, newUserInfo)
-                    }
+                    presenter.updateUser(it.data!!, newUserInfo)
                 }
                 Status.EMPTY -> presenter.addUser(newUserInfo)
                 else -> {

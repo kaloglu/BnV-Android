@@ -1,16 +1,26 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.raffle
 
-import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.FormContract
+import com.kaloglu.bedavanevar.domain.CountLiveData
+import com.kaloglu.bedavanevar.domain.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListView
+import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
+import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.ResponseLiveView
 
 interface RaffleContract {
 
-    interface View : FormContract.FormView {
+    interface View : ResponseLiveView {
+        var model: Raffle
+
         fun getRaffleName(): String
     }
 
-    interface Presenter : FormContract.FormPresenter<View>
+    interface Presenter : MvpPresenter<View> {
+        fun enrollRaffle(raffle: Raffle)
+        fun getData(id: String): DocumentLiveData<Raffle>
+        fun getAttendCount(): CountLiveData
+    }
 
     interface ListView : MvpListView
 

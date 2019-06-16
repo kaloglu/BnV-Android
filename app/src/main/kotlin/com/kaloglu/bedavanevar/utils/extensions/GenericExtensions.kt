@@ -10,7 +10,7 @@ import android.os.Build
 import android.text.Html
 import android.text.Spanned
 import android.util.TypedValue
-import com.kaloglu.bedavanevar.domain.repository.base.BaseRepository
+import com.kaloglu.bedavanevar.domain.repository.base.BaseListRepository
 import com.kaloglu.bedavanevar.utils.extensions.GenericExtensions.DECIMAL_FORMAT
 import com.kaloglu.bedavanevar.utils.extensions.GenericExtensions.DECIMAL_FORMAT_SYMBOLS
 import com.kaloglu.bedavanevar.utils.extensions.GenericExtensions.DECIMAL_FORMAT_SYMBOLS_TR
@@ -188,7 +188,7 @@ inline fun <reified C : Any> C?.checkInjection() =
             throwProvidingError<C>()
         }
 
-inline fun <reified C : BaseRepository> C?.checkInjection() =
+inline fun <reified C : BaseListRepository> C?.checkInjection() =
         checkNotNull(this) {
             throwProvidingError<C>("ListPresenter")
         }

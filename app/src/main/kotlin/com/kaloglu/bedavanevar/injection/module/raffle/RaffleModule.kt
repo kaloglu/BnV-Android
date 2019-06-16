@@ -1,5 +1,6 @@
 package com.kaloglu.bedavanevar.injection.module.raffle
 
+import com.kaloglu.bedavanevar.data.repository.raffle.RaffleListRepository
 import com.kaloglu.bedavanevar.data.repository.raffle.RaffleRepository
 import com.kaloglu.bedavanevar.injection.scopes.PerFragment
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
@@ -24,7 +25,7 @@ abstract class RaffleModule {
         @Provides
         @PerFragment
         fun listPresenter(
-                repository: RaffleRepository,
+                repository: RaffleListRepository,
                 genericDependencies: GenericListDependencies
         ): RaffleContract.ListPresenter =
                 RaffleListPresenter(repository, genericDependencies)

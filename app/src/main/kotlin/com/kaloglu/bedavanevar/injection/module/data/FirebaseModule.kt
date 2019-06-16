@@ -62,13 +62,6 @@ abstract class FirebaseModule {
         fun raffleCollection(firestore: FirebaseFirestore) =
                 firestore.collection(TableNames.RAFFLE_LIST)
 
-        @JvmStatic
-        @PerApplication
-        @Provides
-        @Named(TableNames.ATTENDEE_LIST)
-        fun attendeeCollection(firestore: FirebaseFirestore) =
-                firestore.collection(TableNames.ATTENDEE_LIST)
-
     }
 
 }

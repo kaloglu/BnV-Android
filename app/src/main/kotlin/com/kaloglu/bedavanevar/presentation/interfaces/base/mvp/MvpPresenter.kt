@@ -20,6 +20,12 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
 
     val genericDependencies: GenericDependencies?
 
+    var activeUser: UserDetail?
+        get() = genericDependencies!!.activeUser
+        set(value) {
+            genericDependencies?.activeUser = value
+        }
+
     var loginUser: FirebaseUser?
         get() = genericDependencies!!.loginUser
         set(value) {
@@ -104,4 +110,5 @@ interface MvpPresenter<V : MvpView> : LifecycleObserver {
     fun updateUser(userDetail: UserDetail, newUserDetail: UserDetail)
     fun addUser(userDetail: UserDetail)
     fun linkUserAccount()
+
 }

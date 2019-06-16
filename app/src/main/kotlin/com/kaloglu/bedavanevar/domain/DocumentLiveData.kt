@@ -37,8 +37,8 @@ class DocumentLiveData<T : BaseModel>(
 
     private fun documentToModel(snapshot: DocumentSnapshot?): T? =
             snapshot?.let {
-                val toObject: T = it.toObject(type)!!
-                toObject.id = it.id
+                val toObject: T? = it.toObject(type)
+                toObject?.id = it.id
 
                 return toObject
             }

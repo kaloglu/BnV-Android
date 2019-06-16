@@ -14,8 +14,7 @@ data class Raffle @JvmOverloads constructor(
         @SerializedName("startDate") var startDate: Timestamp? = null,
         @SerializedName("endDate") var endDate: Timestamp? = null,
         @SerializedName("rules") var rules: RaffleRules? = null,
-        @SerializedName("productInfo") var productInfo: ProductInfo? = null,
-        @SerializedName("attendees") var attendees: List<Attendee>? = emptyList()
+        @SerializedName("productInfo") var productInfo: ProductInfo? = null
 ) : BaseModel() {
 
     data class RaffleRules @JvmOverloads constructor(

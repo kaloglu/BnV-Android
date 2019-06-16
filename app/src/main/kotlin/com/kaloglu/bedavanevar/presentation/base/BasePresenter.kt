@@ -11,17 +11,23 @@ import com.google.firebase.auth.FirebaseAuthProvider
 import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.UserDetail
+import com.kaloglu.bedavanevar.domain.repository.base.BaseRepository
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpView
 import com.kaloglu.bedavanevar.utils.extensions.checkInjection
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 /**
  * Base implementation for presenter
  * */
 abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
     override val genericDependencies: GenericDependencies? = null
+        get() = field.checkInjection()
+
+    @get:Inject
+    open val repository: BaseRepository? = null
         get() = field.checkInjection()
 
     private var viewRef: WeakReference<V>? = null
@@ -124,13 +130,7 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
             }
 
             getView()?.findRegisteredUser(
-                    userRepository.get(
-                            Filters()
-                                    .addEqualTo(
-                                            field = "email",
-                                            value = email!!
-                                    )
-                    ),
+                    userRepository.get(uid),
                     userDetail
             )
         }
@@ -147,6 +147,7 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         userDetail.providers.addAll(newUserDetail.providers)
         userDetail.gsm = newUserDetail.gsm
         userRepository.add(userDetail)
+        activeUser = userDetail
     }
 
     override fun removeUnregisteredToken(deviceToken: String) {
@@ -197,5 +198,6 @@ abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
         )
 
     }
+
 
 }
