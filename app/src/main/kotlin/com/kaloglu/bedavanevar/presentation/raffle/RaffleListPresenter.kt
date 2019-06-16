@@ -1,6 +1,6 @@
 package com.kaloglu.bedavanevar.presentation.raffle
 
-import com.kaloglu.bedavanevar.data.repository.raffle.RaffleRepository
+import com.kaloglu.bedavanevar.data.repository.raffle.RaffleListRepository
 import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.mobileui.raffle.RaffleFragment
@@ -11,7 +11,7 @@ import com.kaloglu.bedavanevar.utils.extensions.putArgs
 import javax.inject.Inject
 
 class RaffleListPresenter @Inject constructor(
-        override val repository: RaffleRepository,
+        override val listRepository: RaffleListRepository,
         override val genericDependencies: GenericListDependencies
 ) : BaseListPresenter<RaffleContract.ListView>(), RaffleContract.ListPresenter {
 

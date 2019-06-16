@@ -37,8 +37,8 @@ abstract class BaseFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rootView = view
-        super.onViewCreated(view, savedInstanceState)
         initUserInterface(view)
+        super.onViewCreated(view, savedInstanceState)
     }
 
     /**

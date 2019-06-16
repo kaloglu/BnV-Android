@@ -1,10 +1,12 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.base.mvp
 
+import com.kaloglu.bedavanevar.domain.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 
-interface ResponseLiveView<M : BaseModel> : MvpView {
+interface ResponseLiveView : MvpView {
     fun onLoading()
-    fun onSuccess(data: M)
+    fun <M : BaseModel> onSuccess(data: M)
     fun onEmpty()
-    fun onError(errorMessage: String?, data: M?)
+    fun <M : BaseModel> onError(errorMessage: String?, data: M?)
+    fun <M : BaseModel> observeLiveData(liveData: DocumentLiveData<M>)
 }

@@ -1,17 +1,22 @@
 package com.kaloglu.bedavanevar.domain.repository.interfaces
 
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.Query
-import com.kaloglu.bedavanevar.domain.QueryLiveData
-import com.kaloglu.bedavanevar.domain.filters.Filters
+import androidx.annotation.CallSuper
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.kaloglu.bedavanevar.domain.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 
 interface Repository {
+    val collectionRef: CollectionReference
+    var documentRef: DocumentReference
 
     fun getModelClass(): Class<*>
-    fun <M : BaseModel> get(filters: Filters?): QueryLiveData<M>
-    fun toQuery(filters: Filters?): Query
-    fun <M : BaseModel> add(model: M): Task<Void>
-    fun remove(id: String): Task<Void>
+
+    @Suppress("UNCHECKED_CAST")
+    @CallSuper
+    fun <M : BaseModel> get(id: String): DocumentLiveData<M> {
+        documentRef = collectionRef.document(id)
+        return DocumentLiveData(documentRef, getModelClass() as Class<M>)
+    }
 
 }

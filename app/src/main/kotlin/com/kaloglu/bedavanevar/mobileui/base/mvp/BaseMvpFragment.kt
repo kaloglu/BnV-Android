@@ -3,15 +3,18 @@ package com.kaloglu.bedavanevar.mobileui.base.mvp
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.kaloglu.bedavanevar.domain.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
 import com.kaloglu.bedavanevar.domain.model.UserDetail
+import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.mobileui.base.BaseFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpView
 import javax.inject.Inject
 
-abstract class BaseMvpFragment<V : MvpView, P : MvpPresenter<V>> : BaseFragment(), MvpView {
+abstract class BaseMvpFragment<M : BaseModel, V : MvpView, P : MvpPresenter<V>>
+    : BaseFragment(), MvpView {
     @Inject
     lateinit var presenter: P
 
@@ -33,7 +36,7 @@ abstract class BaseMvpFragment<V : MvpView, P : MvpPresenter<V>> : BaseFragment(
         getMvpActivity().findUnregisteredToken(liveData)
     }
 
-    override fun findRegisteredUser(liveData: QueryLiveData<UserDetail>, newUserInfo: UserDetail) {
+    override fun findRegisteredUser(liveData: DocumentLiveData<UserDetail>, newUserInfo: UserDetail) {
         getMvpActivity().findRegisteredUser(liveData, newUserInfo)
     }
 

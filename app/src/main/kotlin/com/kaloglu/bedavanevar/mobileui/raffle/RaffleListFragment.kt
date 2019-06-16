@@ -57,7 +57,7 @@ class RaffleListFragment
         }
     }
 
-    override fun <M : BaseModel> observeQuery(liveData: QueryLiveData<M>) {
+    override fun <M : BaseModel> observeLiveData(liveData: QueryLiveData<M>) {
         liveData.observe(
                 this,
                 Observer {

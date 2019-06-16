@@ -12,7 +12,7 @@ import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListView
 
 abstract class BaseMvpListFragment<M : BaseModel, V : MvpListView, P : MvpListPresenter<V>>
-    : BaseMvpFragment<V, P>(), MvpListView {
+    : BaseMvpFragment<M, V, P>(), MvpListView {
 
     override var bottomSheetMenuView: BottomSheetMenuView = object : BottomSheetMenu() {
         override fun <M : BaseModel> onClickBottomMenuItem(
@@ -51,7 +51,7 @@ abstract class BaseMvpListFragment<M : BaseModel, V : MvpListView, P : MvpListPr
     @CallSuper
     override fun onPresenterAttached() {
         super.onPresenterAttached()
-        observeQuery<M>(presenter.getData())
+        observeLiveData<M>(presenter.getData())
     }
 
 }

@@ -10,5 +10,5 @@ interface MvpListView : ResponseLiveListView, UIStateManager.UIStatesView {
 
     fun <M : BaseModel> onClickView(model: M, view: android.view.View)
     fun <M : BaseModel> onClickItem(model: M)
-    fun <M : BaseModel> observeQuery(liveData: QueryLiveData<M>)
+    fun <M : BaseModel> observeLiveData(liveData: QueryLiveData<M>)
 }

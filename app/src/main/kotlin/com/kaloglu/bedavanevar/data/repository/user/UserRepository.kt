@@ -1,13 +1,14 @@
 package com.kaloglu.bedavanevar.data.repository.user
 
 import com.google.firebase.firestore.CollectionReference
-import com.kaloglu.bedavanevar.data.repository.devicetoken.DeviceTokenRepository
+import com.google.firebase.firestore.DocumentReference
+import com.kaloglu.bedavanevar.data.repository.devicetoken.DeviceTokenListRepository
 import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.TableNames
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
 import com.kaloglu.bedavanevar.domain.model.UserDetail
-import com.kaloglu.bedavanevar.domain.repository.base.BaseRepository
+import com.kaloglu.bedavanevar.domain.repository.base.BaseListRepository
 import com.kaloglu.bedavanevar.injection.scopes.PerApplication
 import javax.inject.Inject
 import javax.inject.Named
@@ -16,8 +17,10 @@ import javax.inject.Named
 class UserRepository @Inject constructor(
         @Named(TableNames.USER_LIST)
         override val collectionRef: CollectionReference,
-        private val deviceTokenRepository: DeviceTokenRepository
-) : BaseRepository() {
+        private val deviceTokenRepository: DeviceTokenListRepository
+) : BaseListRepository() {
+
+    override lateinit var documentRef: DocumentReference
 
     override fun getModelClass() = UserDetail::class.java
 

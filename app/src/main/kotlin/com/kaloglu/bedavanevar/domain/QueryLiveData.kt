@@ -16,7 +16,7 @@ class QueryLiveData<T : BaseModel>(
         val listData = documentToList(snapshots)
         value = when {
             e != null -> Resource.error(e.localizedMessage, listData)
-            listData.isEmpty() -> Resource.empty()
+            listData.isNullOrEmpty() -> Resource.empty()
             else -> Resource.success(listData)
         }
     }

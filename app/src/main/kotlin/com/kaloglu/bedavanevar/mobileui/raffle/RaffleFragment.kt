@@ -1,8 +1,13 @@
 package com.kaloglu.bedavanevar.mobileui.raffle
 
 import android.view.View
+import androidx.lifecycle.Observer
 import com.kaloglu.bedavanevar.R
+import com.kaloglu.bedavanevar.domain.CountLiveData
+import com.kaloglu.bedavanevar.domain.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.enums.Status
 import com.kaloglu.bedavanevar.domain.model.Raffle
+import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.mobileui.base.mvp.BaseMvpFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.raffle.RaffleContract
 import com.kaloglu.bedavanevar.utils.extensions.*
@@ -11,14 +16,11 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.content_raffle_fragment.*
 import kotlinx.android.synthetic.main.header_raffle_fragment.*
 
-class RaffleFragment : BaseMvpFragment<RaffleContract.View, RaffleContract.Presenter>(),
+class RaffleFragment : BaseMvpFragment<Raffle, RaffleContract.View, RaffleContract.Presenter>(),
         RaffleContract.View {
-
-    override lateinit var submitButtonView: View
-
     override val resourceLayoutId = R.layout.fragment_raffle
 
-    private lateinit var model: Raffle
+    override lateinit var model: Raffle
 
     override fun initUserInterface(rootView: View) {
         super.initUserInterface(rootView)
@@ -27,12 +29,52 @@ class RaffleFragment : BaseMvpFragment<RaffleContract.View, RaffleContract.Prese
             model.bindViewModel()
         }
 
-//        raffleForm_Name.onActionResInSoftKeyboard(R.integer.create_raffle) { submitButtonView.callOnClick() }
-//        setSubmitButton(raffleForm_Submit) {
-//            presenter.submitForm()
-//        }
     }
 
+    override fun getRaffleName(): String = String.empty
+
+    override fun <M : BaseModel> observeLiveData(liveData: DocumentLiveData<M>) {
+        liveData.observe(
+                this,
+                Observer {
+                    when (it?.status) {
+                        Status.LOADING -> onLoading()
+                        Status.SUCCESS -> onSuccess(it.data!!)
+                        Status.EMPTY -> onEmpty()
+                        Status.ERROR -> onError(it.message, it.data)
+                        null -> TODO("should define ${it?.status}")
+                    }
+                }
+        )
+
+    }
+
+    override fun onLoading() = Unit
+
+    override fun <M : BaseModel> onError(errorMessage: String?, data: M?) {
+        errorMessage?.let { showSnackbar(it) }
+    }
+
+    override fun onEmpty() = Unit
+
+    override fun <M : BaseModel> onSuccess(data: M) {
+        data as Raffle
+        data.bindViewModel()
+    }
+
+    override fun onPresenterAttached() {
+        observeLiveData(presenter.getData(model.id))
+        observeAttending(presenter.getAttendCount())
+    }
+
+    private fun observeAttending(liveData: CountLiveData) {
+        liveData.observe(
+                this,
+                Observer {
+                    textViewAttendCount.text = String.format(getString(R.string.attend_count_text, it)).toCompactHtml()
+                }
+        )
+    }
     private fun Raffle.bindViewModel() {
 
         toolbar_container.title = title?.toCompactHtml()
@@ -56,8 +98,11 @@ class RaffleFragment : BaseMvpFragment<RaffleContract.View, RaffleContract.Prese
 
         textViewEndDate.show(startDate?.toDate()?.time!! < currentTime())
         textViewEndDate.text = String.format(getString(R.string.end_date_text, endDate?.toFormattedDate())).toCompactHtml()
-    }
 
-    override fun getRaffleName(): String = String.empty
+        buttonEnrollRaffle.setOnClickListener {
+            presenter.enrollRaffle(model)
+        }
+
+    }
 
 }

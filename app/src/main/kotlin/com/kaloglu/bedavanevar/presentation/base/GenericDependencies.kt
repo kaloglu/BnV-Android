@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.kaloglu.bedavanevar.data.LocalStorage
 import com.kaloglu.bedavanevar.data.repository.user.UserRepository
+import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.injection.scopes.PerActivity
 import com.kaloglu.bedavanevar.navigation.ActivityNavigator
 import com.kaloglu.bedavanevar.navigation.FragmentNavigator
@@ -17,4 +18,5 @@ open class GenericDependencies @Inject constructor(
         open val userRepository: UserRepository
 ) {
     var loginUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    var activeUser: UserDetail? = null
 }

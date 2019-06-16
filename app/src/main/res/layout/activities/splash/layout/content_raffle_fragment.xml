@@ -81,7 +81,6 @@
         app:layout_constraintStart_toStartOf="@id/LabelRaffleInfo"
         app:layout_constraintTop_toBottomOf="@id/textViewStartDate" />
 
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewMaxAttendee"
         android:layout_width="wrap_content"
@@ -103,5 +102,27 @@
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@id/labelProductInfo"
         app:layout_constraintTop_toBottomOf="@id/textViewMaxAttendee" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewAttendCount"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/attend_count_text"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/LabelRaffleInfo"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMaxAttendByUser" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonEnrollRaffle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/enroll_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewAttendCount" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
