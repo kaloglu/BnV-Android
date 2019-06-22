@@ -1,6 +1,6 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.base.mvp
 
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 
 interface ResponseLiveView : MvpView {

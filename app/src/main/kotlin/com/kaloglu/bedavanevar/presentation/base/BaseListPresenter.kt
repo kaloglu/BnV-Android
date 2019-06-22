@@ -1,6 +1,6 @@
 package com.kaloglu.bedavanevar.presentation.base
 
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.domain.repository.base.BaseListRepository
 import com.kaloglu.bedavanevar.mobileui.interfaces.UIStateType

@@ -1,7 +1,7 @@
 package com.kaloglu.bedavanevar.domain.repository.interfaces
 
 import com.google.firebase.firestore.Query
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 

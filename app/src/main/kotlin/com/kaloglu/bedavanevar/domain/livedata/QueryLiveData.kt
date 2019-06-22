@@ -1,4 +1,4 @@
-package com.kaloglu.bedavanevar.domain
+package com.kaloglu.bedavanevar.domain.livedata
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.*
@@ -15,15 +15,15 @@ class QueryLiveData<T : BaseModel>(
     override fun onEvent(snapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
         val listData = documentToList(snapshots)
         value = when {
-            e != null -> Resource.error(e.localizedMessage, listData)
-            listData.isNullOrEmpty() -> Resource.empty()
-            else -> Resource.success(listData)
+            e != null -> Resource.Error(e.localizedMessage)
+            listData.isNullOrEmpty() -> Resource.Empty()
+            else -> Resource.Success(listData)
         }
     }
 
     override fun onActive() {
         super.onActive()
-        value = Resource.loading()
+        value = Resource.Loading()
         registration = query.addSnapshotListener(this)
     }
 

@@ -1,17 +1,18 @@
 package com.kaloglu.bedavanevar.mobileui.raffle
 
 import android.view.View
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import com.kaloglu.bedavanevar.R
-import com.kaloglu.bedavanevar.domain.CountLiveData
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.enums.Status
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.mobileui.base.mvp.BaseMvpFragment
 import com.kaloglu.bedavanevar.presentation.interfaces.raffle.RaffleContract
 import com.kaloglu.bedavanevar.utils.extensions.*
 import com.kaloglu.bedavanevar.utils.extensions.GenericExtensions.LOCALE_TR
+import com.kaloglu.bedavanevar.viewobjects.CalculatedResource
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.content_raffle_fragment.*
 import kotlinx.android.synthetic.main.header_raffle_fragment.*
@@ -64,17 +65,21 @@ class RaffleFragment : BaseMvpFragment<Raffle, RaffleContract.View, RaffleContra
 
     override fun onPresenterAttached() {
         observeLiveData(presenter.getData(model.id))
-        observeAttending(presenter.getAttendCount())
+        observeUserAttendanceInfo(presenter.getAttendanceInfo())
     }
 
-    private fun observeAttending(liveData: CountLiveData) {
+    private fun observeUserAttendanceInfo(liveData: MediatorLiveData<CalculatedResource?>) {
         liveData.observe(
                 this,
                 Observer {
-                    textViewAttendCount.text = String.format(getString(R.string.attend_count_text, it)).toCompactHtml()
+                    when (it) {
+                        is CalculatedResource.EnrollCount -> textViewEnrollCount.text = String.format(getString(R.string.enroll_count_text, it.result)).toCompactHtml()
+                        is CalculatedResource.TicketCount -> textViewTicketCount.text = String.format(getString(R.string.ticket_count_text, it.result)).toCompactHtml()
+                    }
                 }
         )
     }
+
     private fun Raffle.bindViewModel() {
 
         toolbar_container.title = title?.toCompactHtml()

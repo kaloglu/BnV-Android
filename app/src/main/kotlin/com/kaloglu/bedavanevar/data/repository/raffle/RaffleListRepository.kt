@@ -1,9 +1,9 @@
 package com.kaloglu.bedavanevar.data.repository.raffle
 
 import com.google.firebase.firestore.CollectionReference
-import com.kaloglu.bedavanevar.domain.QueryLiveData
 import com.kaloglu.bedavanevar.domain.TableNames
 import com.kaloglu.bedavanevar.domain.filters.Filters
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.domain.repository.base.BaseListRepository
@@ -13,7 +13,7 @@ import javax.inject.Named
 
 @PerApplication
 class RaffleListRepository @Inject constructor(
-        @Named(TableNames.RAFFLE_LIST)
+        @Named(TableNames.RAFFLES)
         override val collectionRef: CollectionReference
 ) : BaseListRepository() {
 

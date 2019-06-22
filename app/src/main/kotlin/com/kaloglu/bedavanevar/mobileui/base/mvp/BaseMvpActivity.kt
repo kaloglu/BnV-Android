@@ -8,8 +8,8 @@ import androidx.lifecycle.Observer
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
 import com.kaloglu.bedavanevar.R
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.enums.Status
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
 import com.kaloglu.bedavanevar.domain.model.UserDetail

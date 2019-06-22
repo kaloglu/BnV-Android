@@ -1,4 +1,4 @@
-package com.kaloglu.bedavanevar.domain
+package com.kaloglu.bedavanevar.domain.livedata
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.*
@@ -15,15 +15,15 @@ class DocumentLiveData<T : BaseModel>(
 
         val data = documentToModel(snapshot)
         value = when {
-            e != null -> Resource.error(e.localizedMessage, data)
-            data == null -> Resource.empty()
-            else -> Resource.success(data)
+            e != null -> Resource.Error(e.localizedMessage)
+            data == null -> Resource.Empty()
+            else -> Resource.Success(data)
         }
     }
 
     override fun onActive() {
         super.onActive()
-        value = Resource.loading()
+        value = Resource.Loading()
         registration = document.addSnapshotListener(this)
     }
 
