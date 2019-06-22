@@ -1,2 +1,3 @@
-81a6eb7 Merge branch 'develop'
-6709e5a Enroll to Raffle
+46c9658 Merge branch 'develop'
+7f2894a Change enroll strategy
+fd39663 Move livedata classes to livedata folder in domain
