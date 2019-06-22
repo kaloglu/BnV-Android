@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import com.firebase.ui.auth.AuthUI
 import com.kaloglu.bedavanevar.R
 import com.kaloglu.bedavanevar.adapter.raffle.RaffleListAdapter
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.enums.Status
 import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel

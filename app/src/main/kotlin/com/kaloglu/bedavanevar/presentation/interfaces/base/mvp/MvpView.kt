@@ -5,11 +5,10 @@ import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.annotation.UiThread
 import androidx.lifecycle.LifecycleOwner
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
 import com.kaloglu.bedavanevar.domain.model.UserDetail
-import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.mobileui.base.mvp.BaseMvpActivity
 
 interface MvpView : LifecycleOwner {

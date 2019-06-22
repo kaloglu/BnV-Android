@@ -2,8 +2,8 @@ package com.kaloglu.bedavanevar.presentation.raffle
 
 import com.google.firebase.Timestamp
 import com.kaloglu.bedavanevar.data.repository.raffle.RaffleRepository
-import com.kaloglu.bedavanevar.domain.CountLiveData
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.livedata.CountLiveData
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.TableNames
 import com.kaloglu.bedavanevar.domain.model.Attendee
 import com.kaloglu.bedavanevar.domain.model.Raffle

@@ -3,8 +3,8 @@ package com.kaloglu.bedavanevar.mobileui.raffle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.kaloglu.bedavanevar.R
-import com.kaloglu.bedavanevar.domain.CountLiveData
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.livedata.CountLiveData
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.enums.Status
 import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel

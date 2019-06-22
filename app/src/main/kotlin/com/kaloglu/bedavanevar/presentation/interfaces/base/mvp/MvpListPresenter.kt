@@ -1,12 +1,10 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.base.mvp
 
 import androidx.annotation.UiThread
-import androidx.lifecycle.LiveData
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.mobileui.interfaces.UIStateManager
 import com.kaloglu.bedavanevar.presentation.base.GenericListDependencies
-import com.kaloglu.bedavanevar.viewobjects.Resource
 
 interface MvpListPresenter<V : MvpListView>
     : MvpPresenter<V>, UIStateManager.UIStatesPresenter {

@@ -3,7 +3,7 @@ package com.kaloglu.bedavanevar.domain.repository.interfaces
 import androidx.annotation.CallSuper
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 
 interface Repository {

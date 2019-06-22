@@ -1,4 +1,4 @@
-package com.kaloglu.bedavanevar.domain
+package com.kaloglu.bedavanevar.domain.livedata
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.*

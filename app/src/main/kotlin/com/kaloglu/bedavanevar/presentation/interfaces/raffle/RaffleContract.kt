@@ -1,7 +1,7 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.raffle
 
-import com.kaloglu.bedavanevar.domain.CountLiveData
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.livedata.CountLiveData
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListView

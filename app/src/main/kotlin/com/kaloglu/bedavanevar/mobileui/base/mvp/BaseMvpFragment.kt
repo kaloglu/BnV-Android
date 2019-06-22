@@ -3,8 +3,8 @@ package com.kaloglu.bedavanevar.mobileui.base.mvp
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.kaloglu.bedavanevar.domain.DocumentLiveData
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.model.DeviceToken
 import com.kaloglu.bedavanevar.domain.model.UserDetail
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel

@@ -3,7 +3,7 @@ package com.kaloglu.bedavanevar.data.repository.user
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.kaloglu.bedavanevar.data.repository.devicetoken.DeviceTokenListRepository
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.TableNames
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.DeviceToken

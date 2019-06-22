@@ -1,7 +1,7 @@
 package com.kaloglu.bedavanevar.data.repository.raffle
 
 import com.google.firebase.firestore.CollectionReference
-import com.kaloglu.bedavanevar.domain.QueryLiveData
+import com.kaloglu.bedavanevar.domain.livedata.QueryLiveData
 import com.kaloglu.bedavanevar.domain.TableNames
 import com.kaloglu.bedavanevar.domain.filters.Filters
 import com.kaloglu.bedavanevar.domain.model.Raffle
