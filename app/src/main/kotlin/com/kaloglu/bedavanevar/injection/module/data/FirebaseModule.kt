@@ -29,23 +29,16 @@ abstract class FirebaseModule {
         @JvmStatic
         @PerApplication
         @Provides
-        @Named(TableNames.USER_LIST)
+        @Named(TableNames.USERS)
         fun userCollection(firestore: FirebaseFirestore) =
-                firestore.collection(TableNames.USER_LIST)
-
-        @JvmStatic
-        @PerApplication
-        @Provides
-        @Named(TableNames.ADMIN_LIST)
-        fun adminCollection(firestore: FirebaseFirestore) =
-                firestore.collection(TableNames.ADMIN_LIST)
+                firestore.collection(TableNames.USERS)
 
         @JvmStatic
         @PerApplication
         @Provides
         @Named(TableNames.DEVICE_TOKENS)
         fun deviceTokenDocument(firestore: FirebaseFirestore) =
-                firestore.collection(TableNames.DEVICE_TOKENS).document(TableNames.USER_LIST)
+                firestore.collection(TableNames.DEVICE_TOKENS).document(TableNames.USERS)
 
         @JvmStatic
         @PerApplication
@@ -58,9 +51,9 @@ abstract class FirebaseModule {
         @JvmStatic
         @PerApplication
         @Provides
-        @Named(TableNames.RAFFLE_LIST)
+        @Named(TableNames.RAFFLES)
         fun raffleCollection(firestore: FirebaseFirestore) =
-                firestore.collection(TableNames.RAFFLE_LIST)
+                firestore.collection(TableNames.RAFFLES)
 
     }
 

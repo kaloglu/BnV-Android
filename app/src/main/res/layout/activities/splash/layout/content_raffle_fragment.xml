@@ -104,12 +104,12 @@
         app:layout_constraintTop_toBottomOf="@id/textViewMaxAttendee" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewAttendCount"
+        android:id="@+id/textViewEnrollCount"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="@string/attend_count_text"
+        android:text="@string/enroll_count_text"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@id/LabelRaffleInfo"
         app:layout_constraintTop_toBottomOf="@+id/textViewMaxAttendByUser" />
@@ -122,7 +122,18 @@
         android:text="@string/enroll_button_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewAttendCount" />
+        app:layout_constraintTop_toBottomOf="@id/textViewEnrollCount" />
 
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTicketCount"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="@string/enroll_count_text"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/LabelRaffleInfo"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEnrollRaffle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

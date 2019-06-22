@@ -1,12 +1,13 @@
 package com.kaloglu.bedavanevar.presentation.interfaces.raffle
 
-import com.kaloglu.bedavanevar.domain.livedata.CountLiveData
+import androidx.lifecycle.MediatorLiveData
 import com.kaloglu.bedavanevar.domain.livedata.DocumentLiveData
 import com.kaloglu.bedavanevar.domain.model.Raffle
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpListView
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.MvpPresenter
 import com.kaloglu.bedavanevar.presentation.interfaces.base.mvp.ResponseLiveView
+import com.kaloglu.bedavanevar.viewobjects.CalculatedResource
 
 interface RaffleContract {
 
@@ -19,7 +20,7 @@ interface RaffleContract {
     interface Presenter : MvpPresenter<View> {
         fun enrollRaffle(raffle: Raffle)
         fun getData(id: String): DocumentLiveData<Raffle>
-        fun getAttendCount(): CountLiveData
+        fun getAttendanceInfo(): MediatorLiveData<CalculatedResource?>
     }
 
     interface ListView : MvpListView

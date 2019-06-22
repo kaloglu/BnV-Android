@@ -8,6 +8,7 @@
     <string name="product_info_text"><![CDATA[<b>%1$s %2$s</b> %3$s]]></string>
     <string name="enroll_button_text">Çekilişe Katıl</string>
 
-    <string name="attend_count_text"><![CDATA[<font color="red">Şu ana kadar <b>%1$s</b> kez katıldınız!</font>]]></string>
+    <string name="enroll_count_text"><![CDATA[<font color="red">Şu ana kadar <b>%1$s</b> kez katıldınız!</font>]]></string>
+    <string name="ticket_count_text"><![CDATA[<font color="blue"><b>%1$s</b> çekiliş hakkınız bulunuyor!</font>]]></string>
 
 </resources>
