@@ -3,9 +3,9 @@
 package com.kaloglu.bedavanevar.utils.extensions
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.kaloglu.bedavanevar.domain.model.Attendee
+import com.google.firebase.firestore.*
+import com.kaloglu.bedavanevar.domain.TableNames
+import com.kaloglu.bedavanevar.domain.model.Ticket
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 
 operator fun <TResult, M> Task<TResult>.invoke(model: M, onComplete: (M, Exception?) -> Unit) {
@@ -25,18 +25,18 @@ fun <M : BaseModel> CollectionReference.addToCollection(
         documentId: String,
         subCollectionName: String,
         model: M,
-        onComplete: (M, Exception?) -> Unit = { _: M, _: Exception? -> }
+        onComplete: (Exception?) -> Unit = { _: Exception? -> }
 ) = getSubCollection(documentId, subCollectionName).addToCollection(model, onComplete)
 
 @JvmOverloads
 fun <M : BaseModel> DocumentReference.addToCollection(
         collectionName: String,
         model: M,
-        onComplete: (M, Exception?) -> Unit = { _: M, _: Exception? -> }
+        onComplete: (Exception?) -> Unit = { _: Exception? -> }
 ) = collection(collectionName).addToCollection(model, onComplete)
 
 @JvmOverloads
-fun <M : BaseModel> CollectionReference.addToCollection(model: M, onComplete: (M, Exception?) -> Unit = { _: M, _: Exception? -> }) {
+fun <M : BaseModel> CollectionReference.addToCollection(model: M, onComplete: (Exception?) -> Unit = { _: Exception? -> }) {
     val newDocument: DocumentReference
     when {
         model.id.isNotEmpty() -> {
@@ -48,8 +48,32 @@ fun <M : BaseModel> CollectionReference.addToCollection(model: M, onComplete: (M
         }
     }
 
-    return newDocument.set(model)(model, onComplete)
+    return newDocument.set(model)(onComplete)
 }
 
 fun CollectionReference.getSubCollection(documentId: String, subCollectionName: String) =
         document(documentId).collection(subCollectionName)
+
+fun <T : BaseModel> Class<T>.documentTo(mutableList: MutableList<DocumentSnapshot>) =
+        mutableList.map(this::documentToObj)
+
+fun <T : BaseModel> Class<T>.queryTo(querySnapshot: QuerySnapshot?) =
+        querySnapshot?.map(this::queryToObj) ?: emptyList()
+
+fun <T : BaseModel> Class<T>.documentToObj(documentSnapshot: DocumentSnapshot) =
+        documentSnapshot.toObject(this)?.run {
+            id = documentSnapshot.id
+            this
+        }!!
+
+fun <T : BaseModel> Class<T>.queryToObj(querySnapshot: QueryDocumentSnapshot?) =
+        querySnapshot?.toObject(this)!!.run {
+            id = querySnapshot.id
+            this
+        }
+
+fun <T : BaseModel> Query.getOnce(clazz: Class<T>, onSuccessListener: (List<T>) -> Unit) {
+    this.get().addOnSuccessListener {
+        onSuccessListener(clazz.queryTo(it))
+    }
+}

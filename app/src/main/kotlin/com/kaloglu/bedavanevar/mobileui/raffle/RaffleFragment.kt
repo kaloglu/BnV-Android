@@ -74,7 +74,13 @@ class RaffleFragment : BaseMvpFragment<Raffle, RaffleContract.View, RaffleContra
                 Observer {
                     when (it) {
                         is CalculatedResource.EnrollCount -> textViewEnrollCount.text = String.format(getString(R.string.enroll_count_text, it.result)).toCompactHtml()
-                        is CalculatedResource.TicketCount -> textViewTicketCount.text = String.format(getString(R.string.ticket_count_text, it.result)).toCompactHtml()
+                        is CalculatedResource.TicketCount -> {
+                            textViewTicketCount.text = String.format(getString(R.string.ticket_count_text, it.result)).toCompactHtml()
+
+                            it.result as Int
+
+                            buttonEnrollRaffle.show(it.result > 0)
+                        }
                     }
                 }
         )
@@ -82,12 +88,12 @@ class RaffleFragment : BaseMvpFragment<Raffle, RaffleContract.View, RaffleContra
 
     private fun Raffle.bindViewModel() {
 
-        toolbar_container.title = title?.toCompactHtml()
-        raffleDescription.text = description?.toCompactHtml()
+        toolbar_container.title = title.toCompactHtml()
+        raffleDescription.text = description.toCompactHtml()
 
         productInfo?.run {
             if (images.isNotNullOrEmpty())
-                Picasso.get().load(images?.get(0)?.path).into(imageViewRaffle)
+                Picasso.get().load(images[0].path).into(imageViewRaffle)
 
             textViewProductInfo.text = String.format(LOCALE_TR, getString(R.string.product_info_text, count, unit, name)).toCompactHtml()
             textViewUnitPrice.text = String.format(LOCALE_TR, getString(R.string.unit_price_text, unitPrice)).toCompactHtml()
@@ -98,14 +104,16 @@ class RaffleFragment : BaseMvpFragment<Raffle, RaffleContract.View, RaffleContra
             textViewMaxAttendByUser.text = String.format(LOCALE_TR, getString(R.string.max_attend_by_user_text, maxAttendByUser)).toCompactHtml()
         }
 
-        textViewStartDate.show(startDate?.toDate()?.time!! >= currentTime())
-        textViewStartDate.text = String.format(getString(R.string.start_date_text, startDate?.toFormattedDate())).toCompactHtml()
+        textViewStartDate.show(startDate >= currentTime())
+        textViewStartDate.text = String.format(getString(R.string.start_date_text, startDate.toFormattedDate())).toCompactHtml()
 
-        textViewEndDate.show(startDate?.toDate()?.time!! < currentTime())
-        textViewEndDate.text = String.format(getString(R.string.end_date_text, endDate?.toFormattedDate())).toCompactHtml()
+        textViewEndDate.show(startDate < currentTime())
+        textViewEndDate.text = String.format(getString(R.string.end_date_text, endDate.toFormattedDate())).toCompactHtml()
 
         buttonEnrollRaffle.setOnClickListener {
-            presenter.enrollRaffle(model)
+            presenter.enrollRaffle(model) {
+                showSnackbar("Tebrikler çekilişe katıldınız!")
+            }
         }
 
     }

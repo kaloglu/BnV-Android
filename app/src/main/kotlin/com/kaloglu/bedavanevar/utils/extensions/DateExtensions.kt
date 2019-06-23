@@ -67,15 +67,17 @@ fun Long?.toDateTime(datePattern: String = DateStringPattern): String {
     return format.format(date)
 }
 
-fun currentTime(): Long {
+fun currentTime(): Timestamp = Timestamp.now()
+
+fun currentTimeForLong(): Long {
     return System.currentTimeMillis()
 }
 
-fun Date.toFormattedDate() = UI_DATE_FORMAT.format(this)
+fun Date.toFormattedDate(): String = UI_DATE_FORMAT.format(this)
 
 fun Long.toFormattedDate() = Date(this).toFormattedDate()
 
-fun Timestamp.toFormattedDate() = toDate().toFormattedDate()
+fun Timestamp.toFormattedDate(): String = toDate().toFormattedDate()
 
 fun String?.toFormattedDate(): String {
     if (this == null)

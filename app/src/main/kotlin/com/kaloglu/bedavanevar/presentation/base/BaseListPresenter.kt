@@ -34,7 +34,7 @@ abstract class BaseListPresenter<V : MvpListView>
     override fun <M : BaseModel> remove(model: M, onComplete: (String, Exception?) -> Unit) =
             listRepository!!.remove(model.id, onComplete)
 
-    override fun <M : BaseModel> add(model: M, onComplete: (M, Exception?) -> Unit) =
+    override fun <M : BaseModel> add(model: M, onComplete: (Exception?) -> Unit) =
             listRepository!!.add(model, onComplete)
 
 }

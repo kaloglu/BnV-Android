@@ -23,6 +23,7 @@ import javax.inject.Inject
  * Base implementation for presenter
  * */
 abstract class BasePresenter<V : MvpView> : MvpPresenter<V> {
+
     override val genericDependencies: GenericDependencies? = null
         get() = field.checkInjection()
 

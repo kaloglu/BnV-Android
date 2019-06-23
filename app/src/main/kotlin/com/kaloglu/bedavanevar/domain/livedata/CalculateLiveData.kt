@@ -2,8 +2,8 @@ package com.kaloglu.bedavanevar.domain.livedata
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.*
-import com.kaloglu.bedavanevar.domain.model.Ticket
-import com.kaloglu.bedavanevar.utils.extensions.currentTime
+import com.kaloglu.bedavanevar.domain.model.availableTickets
+import com.kaloglu.bedavanevar.domain.model.queryToTicket
 import com.kaloglu.bedavanevar.viewobjects.CalculatedResource
 
 abstract class CalculateLiveData(
@@ -42,14 +42,9 @@ class CountLiveData(query: Query) : CalculateLiveData(query, { CalculatedResourc
 class TicketCountLiveData(query: Query) : CalculateLiveData(
         query,
         {
-            it.documents
-                    .map { doc ->
-                        val ticket = doc.toObject(Ticket::class.java)!!
-                        ticket.id = doc.id
-                        ticket
-                    }.filter { ticket ->
-                        ticket.expireDate?.toDate()?.time!! > currentTime()
-                    }.sumBy { ticket ->
+            queryToTicket(it)
+                    .availableTickets()
+                    .sumBy { ticket ->
                         ticket.remain
                     }.run {
                         CalculatedResource.TicketCount(this)

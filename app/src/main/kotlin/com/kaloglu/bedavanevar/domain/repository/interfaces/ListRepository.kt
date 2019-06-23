@@ -13,7 +13,7 @@ interface ListRepository : Repository {
 
     fun <M : BaseModel> add(
             model: M,
-            onComplete: (M, Exception?) -> Unit = { _: M, _: Exception? -> }
+            onComplete: (Exception?) -> Unit = {_: Exception? -> }
     )
 
     fun remove(

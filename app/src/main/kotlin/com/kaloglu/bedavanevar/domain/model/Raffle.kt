@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
+import com.kaloglu.bedavanevar.utils.extensions.currentTime
 import com.kaloglu.bedavanevar.utils.extensions.empty
 
 @IgnoreExtraProperties
@@ -11,8 +12,8 @@ data class Raffle @JvmOverloads constructor(
         override var id: String = String.empty,
         @SerializedName("title") var title: String = String.empty,
         @SerializedName("description") var description: String = String.empty,
-        @SerializedName("startDate") var startDate: Timestamp? = null,
-        @SerializedName("endDate") var endDate: Timestamp? = null,
+        @SerializedName("startDate") var startDate: Timestamp = currentTime(),
+        @SerializedName("endDate") var endDate: Timestamp = currentTime(),
         @SerializedName("rules") var rules: RaffleRules? = null,
         @SerializedName("productInfo") var productInfo: ProductInfo? = null
 ) : BaseModel() {

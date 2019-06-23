@@ -1,6 +1,5 @@
 package com.kaloglu.bedavanevar.domain.model
 
-import com.google.firebase.Timestamp
 import com.google.gson.annotations.SerializedName
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
 import com.kaloglu.bedavanevar.utils.extensions.empty
@@ -33,20 +32,3 @@ data class UserDetail @JvmOverloads constructor(
     }
 
 }
-
-data class Ticket @JvmOverloads constructor(
-        override var id: String = String.empty,
-        @SerializedName("source") var source: String = String.empty,
-        @SerializedName("earn") var earn: Int = 0,
-        @SerializedName("remain") var remain: Int = 0,
-        @SerializedName("createDate") var createDate: Timestamp? = null,
-        @SerializedName("expireDate") var expireDate: Timestamp? = null,
-        @SerializedName("userId") var userId: String = String.empty
-) : BaseModel()
-
-data class Enroll @JvmOverloads constructor(
-        override var id: String = String.empty,
-        @SerializedName("ticketId") var ticketId: String = String.empty,
-        @SerializedName("raffleId") var raffleId: String = String.empty,
-        @SerializedName("enrollDate") var enrollDate: Timestamp
-) : BaseModel()
