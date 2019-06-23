@@ -15,7 +15,7 @@ sealed class Resource<out M> constructor(
 
     class Loading : Resource<Nothing>(LOADING)
 
-    class Empty<M> : Resource<M>(EMPTY)
+    class Empty : Resource<Nothing>(EMPTY)
 
 }
 

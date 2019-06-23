@@ -18,7 +18,7 @@ interface MvpListPresenter<V : MvpListView>
     fun <M : BaseModel> remove(model: M, onComplete: (String, Exception?) -> Unit = { _: String, _: Exception? -> })
 
     @UiThread
-    fun <M : BaseModel> add(model: M, onComplete: (M, Exception?) -> Unit = { _: M, _: Exception? -> })
+    fun <M : BaseModel> add(model: M, onComplete: (Exception?) -> Unit = { _: Exception? -> })
 
     @UiThread
     fun <M : BaseModel> openDetail(model: M)

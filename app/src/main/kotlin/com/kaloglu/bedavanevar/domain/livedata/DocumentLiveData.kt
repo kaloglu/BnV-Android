@@ -3,6 +3,7 @@ package com.kaloglu.bedavanevar.domain.livedata
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.*
 import com.kaloglu.bedavanevar.domain.model.base.BaseModel
+import com.kaloglu.bedavanevar.utils.extensions.documentToObj
 import com.kaloglu.bedavanevar.viewobjects.Resource
 
 class DocumentLiveData<T : BaseModel>(
@@ -35,12 +36,6 @@ class DocumentLiveData<T : BaseModel>(
         }
     }
 
-    private fun documentToModel(snapshot: DocumentSnapshot?): T? =
-            snapshot?.let {
-                val toObject: T? = it.toObject(type)
-                toObject?.id = it.id
-
-                return toObject
-            }
+    private fun documentToModel(snapshot: DocumentSnapshot?) = snapshot?.let(type::documentToObj)
 
 }

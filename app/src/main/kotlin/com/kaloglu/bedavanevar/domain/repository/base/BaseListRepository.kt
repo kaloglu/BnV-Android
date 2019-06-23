@@ -29,7 +29,7 @@ abstract class BaseListRepository : ListRepository {
         return query
     }
 
-    override fun <M : BaseModel> add(model: M, onComplete: (M, Exception?) -> Unit) =
+    override fun <M : BaseModel> add(model: M, onComplete: (Exception?) -> Unit) =
             collectionRef.addToCollection(model, onComplete)
 
     override fun remove(id: String, onComplete: (String, Exception?) -> Unit) =

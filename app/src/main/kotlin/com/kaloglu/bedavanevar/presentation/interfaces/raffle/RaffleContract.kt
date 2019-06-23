@@ -18,7 +18,11 @@ interface RaffleContract {
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun enrollRaffle(raffle: Raffle)
+        fun enrollRaffle(
+                raffle: Raffle,
+                onError: (Exception) -> Unit = { getView()?.showSnackbar(it.localizedMessage) },
+                onSuccess: () -> Unit = {}
+        )
         fun getData(id: String): DocumentLiveData<Raffle>
         fun getAttendanceInfo(): MediatorLiveData<CalculatedResource?>
     }
@@ -26,7 +30,6 @@ interface RaffleContract {
     interface ListView : MvpListView
 
     interface ListPresenter : MvpListPresenter<ListView> {
-
         fun createRaffle()
     }
 
