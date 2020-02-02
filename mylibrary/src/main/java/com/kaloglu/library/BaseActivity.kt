@@ -1,6 +1,7 @@
 package com.kaloglu.library
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -13,6 +14,8 @@ abstract class BaseActivity : AppCompatActivity() {
         setContentView()
 
         initUserInterface()
+
+        Toast.makeText(this, "heyt be", Toast.LENGTH_LONG).show()
 
     }
 
